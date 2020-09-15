@@ -1,0 +1,1 @@
+nohup ./train_cinc.sh > run_train_cinc.log &
