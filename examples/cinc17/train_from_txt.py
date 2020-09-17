@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
-
+torch.manual_seed(0)
 train_x = np.genfromtxt('../../processed_data/Xtrain', delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../processed_data/ytrain', delimiter=',', dtype='float')
 
@@ -227,7 +227,7 @@ ground_truth = val_labels
 # data = load.load_dataset(data_path)
 # preproc = util.load(os.path.dirname(model_path))
 #
-# prior = [[[0.15448743, 0.66301941, 0.34596848, 0.09691286]]]
+prior = [0.15448743, 0.66301941, 0.34596848, 0.09691286]
 #
 # probs = []
 # labels = []
@@ -240,8 +240,21 @@ ground_truth = val_labels
 #     print(sst.mode(np.argmax(probs[0] / prior, axis=2).squeeze()))
 #     break
 #     labels.append(y)
+probs = []
+val_outputs = model(val_inputs)
+np_outputs = val_outputs.detach().numpy()
+# print(val_outputs[0])
+# print(nn.Softmax(dim=1)(val_outputs)[0])
+# ss = nn.Softmax(dim=1)(val_outputs) / torch.from_numpy(np.array(prior))
+# print(ss[0])
+# preds = torch.argmax(ss, dim=1)
+from scipy.special import softmax
+for output_array in np_outputs:
+    ss = softmax(output_array) / np.array(prior)
+    probs.append(np.argmax(ss))
 
-preds = torch.argmax(model(val_inputs), dim=1)
+preds = np.array(probs)
+print('preds', preds.shape)
 
 import sklearn.metrics as skm
 report = skm.classification_report(
