@@ -19,9 +19,9 @@ batch_size=32
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.kernel_size = 7
+        self.kernel_size = 16
         self.padding_size = 0
-        self.channel_size = 16
+        self.channel_size = 32
         self.avgpool1 = nn.AvgPool1d(kernel_size=2, stride=2)
         self.avgpool2 = nn.AvgPool1d(kernel_size=2, stride=2)
         self.avgpool3 = nn.AvgPool1d(kernel_size=2, stride=2)
@@ -37,7 +37,7 @@ class Net(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(512, 64)
+        self.fc1 = nn.Linear(1024, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
 
@@ -63,12 +63,8 @@ model = Net()
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
-        # manager = Manager()
-
         self.data = data.astype(np.float32)
         self.target = target.astype(np.float32)
-        # self.data = manager.list(data.astype(np.float32))
-        # self.target = manager.list(target.astype(np.float32))
 
     def __getitem__(self, index):
         x = self.data[index]
@@ -140,7 +136,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 15
+n_epochs = 3
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
