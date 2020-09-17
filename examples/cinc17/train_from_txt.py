@@ -79,7 +79,7 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(1024, 16)
+        self.fc1 = nn.Linear(512, 16)
         self.fc2 = nn.Linear(16, 64)
         self.fc3 = nn.Linear(64, 4)
 
