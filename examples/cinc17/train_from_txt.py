@@ -85,8 +85,8 @@ class ECGDataset(Dataset):
 
 train_dataset = ECGDataset(train_x, train_y, transform=False)
 test_dataset = ECGDataset(test_x, test_y, transform=False)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, num_workers=0, batch_size=batch_size, shuffle=False)
+test_loader = torch.utils.data.DataLoader(test_dataset, num_workers=0, batch_size=batch_size, shuffle=False)
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
