@@ -6,6 +6,8 @@ from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
+import time
+
 torch.manual_seed(0)
 data_dir = 'minimum_data'
 
@@ -238,8 +240,8 @@ class ML4CVD(nn.Module):
 
         return y
 
-model = NetMaxpool()
-# model = ML4CVD_shallow()
+# model = NetMaxpool()
+model = ML4CVD_shallow()
 from torchsummary import summary
 summary(model, input_size =(1, 512), batch_size=32)
 
@@ -275,6 +277,8 @@ def train(epoch):
     val_loss = 0.0
 
     for batch_idx, data in enumerate(train_loader):
+        t = time.time()
+
         # get the inputs
         tr_inputs, tr_labels = data
 
@@ -324,8 +328,9 @@ def train(epoch):
         tr_loss += batch_tr_loss
         val_loss += batch_val_loss
         if batch_idx % 100 == 99:  # print every 2000 mini-batches
-            print('[%d, %5d] train loss: %.6f, val loss : %.6f' %
-                  (epoch + 1, batch_idx + 1, tr_loss / 100, val_loss / 100))
+            elapsed = time.time() - t
+            print('[%d, %5d] train loss: %.6f, val loss : %.6f, elapsed time: %.2f sec' %
+                  (epoch + 1, batch_idx + 1, tr_loss / 100, val_loss / 100, elapsed / 100))
             tr_loss = 0.0
             val_loss = 0.0
 

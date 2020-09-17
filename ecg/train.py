@@ -14,6 +14,8 @@ import network
 import load
 import util
 
+from keras.utils import plot_model
+
 MAX_EPOCHS = 100
 
 def make_save_dir(dirname, experiment_name):
@@ -51,6 +53,9 @@ def train(args, params):
     })
 
     model = network.build_network(**params)
+    print(model.summary())
+    plot_model(model, to_file='model.png', show_shapes=True)
+    exit()
 
     stopping = keras.callbacks.EarlyStopping(patience=8)
 
@@ -100,6 +105,7 @@ def train(args, params):
         # plt.savefig('MLII_0_original.png', edgecolor='black', dpi=600)
         print(train_x.shape, test_x.shape)
         print(train_y.shape, test_y.shape)
+        exit()
         random_train_x = []
         random_train_y = []
         window_size = 256
