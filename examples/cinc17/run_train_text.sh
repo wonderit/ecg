@@ -1,1 +1,1 @@
-nohup ./train_text.sh > train_text.log &
+nohup python -u train_from_txt.py > train_text.log &
