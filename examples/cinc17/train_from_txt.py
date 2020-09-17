@@ -93,27 +93,33 @@ class NetMaxpool(nn.Module):
         self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
 
+        self.dropout = nn.Dropout(0.2)
+
     def forward(self, x):
         x = F.relu(self.conv1(x))  # 32
         x = F.relu(self.conv11(x))  # 32
+        x = self.dropout(x)
         x = self.maxpool1(x)  # 32
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv22(x))
+        x = self.dropout(x)
         x = self.maxpool2(x)
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv33(x))
+        x = self.dropout(x)
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         x = F.relu(self.conv5(x))
+        x = self.dropout(x)
         x = self.maxpool4(x)
         # x = F.relu(self.conv5(x))
         # x = self.maxpool5(x)
         x = x.view(x.shape[0], -1)
         x = self.fc1(x)
-        # x = self.dropout1(x)
+        x = self.dropout1(x)
         x = F.relu(x)
         x = self.fc2(x)
-        # x = self.dropout2(x)
+        x = self.dropout2(x)
         x = F.relu(x)
         y = self.fc3(x)
         return y
