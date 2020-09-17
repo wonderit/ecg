@@ -127,7 +127,7 @@ def train(args, params):
 
         all_train_x = []
         all_train_y = []
-        n_sample = 8
+        n_sample = 10
         # for i in range(train_x.shape[0]):
         #     # get random index window for n times
         #

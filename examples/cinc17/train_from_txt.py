@@ -70,7 +70,7 @@ class NetMaxpool(nn.Module):
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
-        # self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
@@ -79,8 +79,8 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv4 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        # self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
-        #                        padding=(self.kernel_size // 2))
+        self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
         self.fc1 = nn.Linear(512, 16)
         self.fc2 = nn.Linear(16, 64)
         self.fc3 = nn.Linear(64, 4)
@@ -92,8 +92,8 @@ class NetMaxpool(nn.Module):
         x = self.maxpool2(x)
         x = F.relu(self.conv3(x))
         x = self.maxpool3(x)
-        # x = F.relu(self.conv4(x))
-        # x = self.maxpool4(x)
+        x = F.relu(self.conv4(x))
+        x = self.maxpool4(x)
         # x = F.relu(self.conv5(x))
         # x = self.maxpool5(x)
         x = x.view(x.shape[0], -1)
@@ -342,16 +342,18 @@ prior = [0.15448743, 0.66301941, 0.34596848, 0.09691286]
 # using prior
 
 probs = []
+probs_prior = []
 val_outputs = model(val_inputs)
 np_outputs = val_outputs.detach().numpy()
 from scipy.special import softmax
 for output_array in np_outputs:
     ss = softmax(output_array)
-    # ss = softmax(output_array) / np.array(prior)
+    ss2 = softmax(output_array) / np.array(prior)
     probs.append(np.argmax(ss))
+    probs_prior.append(np.argmax(ss2))
 
 preds = np.array(probs)
-print('preds', preds.shape)
+preds_prior = np.array(probs_prior)
 
 import sklearn.metrics as skm
 report = skm.classification_report(
@@ -362,4 +364,12 @@ scores = skm.precision_recall_fscore_support(
                     ground_truth,
                     preds,
                     average=None)
+print(report)
+
+
+report = skm.classification_report(
+            ground_truth, preds_prior,
+            target_names=['A', 'N', 'O', '~'],
+            digits=3)
+print('report w/ prior')
 print(report)

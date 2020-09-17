@@ -19,8 +19,10 @@ def apply_threshold(arr, thres):
     arr[arr < -thres] = thres
     return arr
 
-X_train = X_train.reshape([7676, 1, 256, 8]).mean(3).mean(1)
-X_test = X_test.reshape([852, 1, 256, 8]).mean(3).mean(1)
+# X_train = X_train.reshape([7676, 1, 256, 8]).mean(3).mean(1)
+# X_test = X_test.reshape([852, 1, 256, 8]).mean(3).mean(1)
+X_train = X_train.reshape([7676, 1, 512, 2560 // 512]).mean(3).mean(1)
+X_test = X_test.reshape([852, 1, 512, 2560 // 512]).mean(3).mean(1)
 
 order = int(0.3 * 100)
 filtered_train_x, _, _ = st.filter_signal(signal=X_train,
@@ -35,8 +37,8 @@ filtered_test_x, _, _ = st.filter_signal(signal=X_test,
                                           order=order,
                                           frequency=[3, 45],
                                           sampling_rate=100)
-X_threshold = apply_threshold(filtered_train_x, 2000)
-test_x_thres = apply_threshold(filtered_test_x, 2000)
+X_threshold = apply_threshold(filtered_train_x, 4000)
+test_x_thres = apply_threshold(filtered_test_x, 4000)
 current_x = scale_maxabs(X_threshold, np.max(np.abs(X_threshold)), 30)
 current_test_x = scale_maxabs(test_x_thres, np.max(np.abs(test_x_thres)), 30)
 import os
