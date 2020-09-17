@@ -63,9 +63,9 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 16
+        self.kernel_size = 7
         self.padding_size = 0
-        self.channel_size = 32
+        self.channel_size = 16
         self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
@@ -73,9 +73,15 @@ class NetMaxpool(nn.Module):
         self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
+        self.conv11 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
         self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
+        self.conv22 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
         self.conv3 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
+        self.conv33 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv4 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
@@ -89,12 +95,16 @@ class NetMaxpool(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv1(x))  # 32
+        x = F.relu(self.conv11(x))  # 32
         x = self.maxpool1(x)  # 32
         x = F.relu(self.conv2(x))
+        x = F.relu(self.conv22(x))
         x = self.maxpool2(x)
         x = F.relu(self.conv3(x))
+        x = F.relu(self.conv33(x))
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
+        x = F.relu(self.conv5(x))
         x = self.maxpool4(x)
         # x = F.relu(self.conv5(x))
         # x = self.maxpool5(x)
