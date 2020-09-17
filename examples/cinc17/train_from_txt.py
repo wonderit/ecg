@@ -3,14 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import Dataset
-from scipy import stats
 import numpy as np
-from torchsummary import summary
-from sklearn.metrics import r2_score, mean_squared_error
-import math
-import argparse
-import time
-import pandas as pd
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
 
@@ -69,10 +62,11 @@ model = Net()
 
 
 class ECGDataset(Dataset):
-    def __init__(self, data, target, transform=None):
-        self.data = torch.from_numpy(data).float()
-        self.target = torch.from_numpy(target).float()
-        self.transform = transform
+    def __init__(self, data, target):
+        # self.data = torch.from_numpy(data).float()
+        # self.target = torch.from_numpy(target).float()
+        self.data = data.astype(np.float32)
+        self.target = target.astype(np.float32)
 
     def __getitem__(self, index):
         x = self.data[index]
@@ -83,8 +77,8 @@ class ECGDataset(Dataset):
         return len(self.data)
 
 
-train_dataset = ECGDataset(train_x, train_y, transform=False)
-test_dataset = ECGDataset(test_x, test_y, transform=False)
+train_dataset = ECGDataset(train_x, train_y)
+test_dataset = ECGDataset(test_x, test_y)
 train_loader = torch.utils.data.DataLoader(train_dataset, num_workers=0, batch_size=batch_size, shuffle=False)
 test_loader = torch.utils.data.DataLoader(test_dataset, num_workers=0, batch_size=batch_size, shuffle=False)
 
@@ -94,7 +88,10 @@ optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
-
+# get the validation set
+x_val, y_val = Variable(val_x), Variable(val_y)
+val_inputs = x_val.unsqueeze(1)
+val_labels = torch.argmax(y_val, dim=1)
 
 def train(epoch):
     tr_loss = 0.0
@@ -104,19 +101,15 @@ def train(epoch):
         # get the inputs
         tr_inputs, tr_labels = data
 
-        # get the validation set
-        x_val, y_val = Variable(val_x), Variable(val_y)
 
         # zero the parameter gradients
         optimizer.zero_grad()
 
         # unsqueeze data
         tr_inputs = tr_inputs.unsqueeze(1)
-        val_inputs = x_val.unsqueeze(1)
 
         # one-hot to label
         tr_labels = torch.argmax(tr_labels, dim=1)
-        val_labels = torch.argmax(y_val, dim=1)
 
         # forward + backward + optimize
         tr_outputs = model(tr_inputs)
