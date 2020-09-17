@@ -17,7 +17,7 @@ test_y = np.genfromtxt('../../{}/ytest'.format(data_dir), delimiter=',', dtype='
 
 print('Data Loading finished (row:{})'.format(len(train_x)))
 
-batch_size=64
+batch_size = 32
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
