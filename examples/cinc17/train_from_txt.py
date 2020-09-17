@@ -61,14 +61,14 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 7
+        self.kernel_size = 16
         self.padding_size = 0
-        self.channel_size = 16
+        self.channel_size = 4
         self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
-        # self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
@@ -77,8 +77,8 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv4 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        # self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
-        #                        padding=(self.kernel_size // 2))
+        self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
         self.fc1 = nn.Linear(256, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
@@ -92,8 +92,8 @@ class NetMaxpool(nn.Module):
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         x = self.maxpool4(x)
-        # x = F.relu(self.conv5(x))
-        # x = self.maxpool5(x)
+        x = F.relu(self.conv5(x))
+        x = self.maxpool5(x)
         x = x.view(x.shape[0], -1)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
@@ -188,7 +188,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 20
+n_epochs = 2
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses

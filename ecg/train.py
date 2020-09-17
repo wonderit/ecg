@@ -127,15 +127,15 @@ def train(args, params):
 
         all_train_x = []
         all_train_y = []
-        n_sample = 1
-        for i in range(train_x.shape[0]):
-            # get random index window for n times
-
-            for j in range(n_sample):
-                # tr_i = np.random.choice(train_x.shape[1] // window_size, 1)[0]
-                tr_i = j
-                all_train_x.append(train_x[i, tr_i*window_size:(tr_i+1)*window_size, :])
-                all_train_y.append(train_y[i, tr_i, :])
+        n_sample = 8
+        # for i in range(train_x.shape[0]):
+        #     # get random index window for n times
+        #
+        #     for j in range(n_sample):
+        #         # tr_i = np.random.choice(train_x.shape[1] // window_size, 1)[0]
+        #         tr_i = j
+        #         all_train_x.append(train_x[i, tr_i*window_size:(tr_i+1)*window_size, :])
+        #         all_train_y.append(train_y[i, tr_i, :])
 
         # random_test_x = []
         # random_test_y = []
@@ -153,16 +153,22 @@ def train(args, params):
         # train_x = train_x[:, 256 * r_i:256 * (r_i+1)* r_length, :]
         # train_y = train_y[:, r_i, :]
 
-        test_x = test_x[:, 256 * r_i:256 * (r_i+1) * r_length, :]
+        # test_x = test_x[:, 256 * r_i:256 * (r_i+1) * r_length, :]
+        # test_y = test_y[:, r_i, :]
+        # train_x = np.array(all_train_x)
+        # train_y = np.array(all_train_y)
+
+        # get 8 windows
+        train_x = train_x[:, :window_size * n_sample, :]
+        train_y = train_y[:, r_i, :]
+        test_x = test_x[:, :window_size * n_sample, :]
         test_y = test_y[:, r_i, :]
-        train_x = np.array(all_train_x)
-        train_y = np.array(all_train_y)
 
         # test_x = np.array(random_test_x)
         # train_x = np.array(train_x)
 
-        # train_x = np.squeeze(train_x, axis=(2,))
-        # test_x = np.squeeze(test_x, axis=(2,))
+        train_x = np.squeeze(train_x, axis=(2,))
+        test_x = np.squeeze(test_x, axis=(2,))
 
         print('train_x m, s: ', train_x.mean(), train_x.std())
         print('train_x min, max: ', train_x.min(), train_x.max())
@@ -190,18 +196,18 @@ def train(args, params):
         file_name_test_x = 'X{}'.format(test_file_suffix)
         file_name_test_y = 'y{}'.format(test_file_suffix)
 
-        # np.savetxt('{}/{}'.format(data_dir, file_name_train_x), train_x, delimiter=',', fmt='%1.8f')
-        # np.savetxt('{}/{}'.format(data_dir, file_name_train_y), train_y, delimiter=',', fmt='%1.8f')
-        # np.savetxt('{}/{}'.format(data_dir, file_name_test_x), test_x, delimiter=',', fmt='%1.8f')
-        # np.savetxt('{}/{}'.format(data_dir, file_name_test_y), test_y, delimiter=',', fmt='%1.8f')
-        # exit()
+        np.savetxt('{}/{}'.format(data_dir, file_name_train_x), train_x, delimiter=',', fmt='%1.8f')
+        np.savetxt('{}/{}'.format(data_dir, file_name_train_y), train_y, delimiter=',', fmt='%1.8f')
+        np.savetxt('{}/{}'.format(data_dir, file_name_test_x), test_x, delimiter=',', fmt='%1.8f')
+        np.savetxt('{}/{}'.format(data_dir, file_name_test_y), test_y, delimiter=',', fmt='%1.8f')
+        exit()
 
-        model.fit(
-            train_x, train_y,
-            batch_size=batch_size,
-            epochs=MAX_EPOCHS,
-            validation_data=(dev_x, dev_y),
-            callbacks=[checkpointer, reduce_lr, stopping])
+        # model.fit(
+        #     train_x, train_y,
+        #     batch_size=batch_size,
+        #     epochs=MAX_EPOCHS,
+        #     validation_data=(dev_x, dev_y),
+        #     callbacks=[checkpointer, reduce_lr, stopping])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

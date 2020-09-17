@@ -128,92 +128,92 @@ def build_network(**params):
                    dtype='float32',
                    name='inputs')
     # original
-    # if params.get('is_regular_conv', False):
-    #     layer = add_conv_layers(inputs, **params)
-    # else:
-    #     layer = add_resnet_layers(inputs, **params)
-    #
-    # output = add_output_layer(layer, **params)
-    # model = Model(inputs=[inputs], outputs=[output])
-    # if params.get("compile", True):
-    #     add_compile(model, **params)
+    if params.get('is_regular_conv', False):
+        layer = add_conv_layers(inputs, **params)
+    else:
+        layer = add_resnet_layers(inputs, **params)
+
+    output = add_output_layer(layer, **params)
+    model = Model(inputs=[inputs], outputs=[output])
+    if params.get("compile", True):
+        add_compile(model, **params)
 
     # small
-    filter_length = params["conv_filter_length"]
-    kernel_size = params["conv_num_filters_start"]
-    x = Conv1D(filters=filter_length,
-               kernel_size=kernel_size,
-               padding='same',
-               strides=1,
-               kernel_initializer='he_normal')(inputs)
-    # x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = MaxPooling1D(pool_size=2, strides=2)(x)
-    # x = Dropout(config.drop_rate)(x)
-    x = Conv1D(filters=filter_length,
-               kernel_size=kernel_size,
-               padding='same',
-               strides=1,
-               kernel_initializer='he_normal')(x)
-    # x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = MaxPooling1D(pool_size=2, strides=2)(x)
-    # x = Dropout(config.drop_rate)(x)
-    # similar implementation to maxpool
-    # x = Dropout(0.2)(x)
-    # x = BatchNormalization()(x)
-    ## 2 convolutional block (conv,BN, relu)
-    x = Conv1D(filters=filter_length,
-               kernel_size=kernel_size,
-               padding='same',
-               strides=1,
-               kernel_initializer='he_normal')(x)
-    # x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = MaxPooling1D(pool_size=2, strides=2)(x)
-    # x = Dropout(config.drop_rate)(x)
-    ## 3 convolutional block (conv,BN, relu)
-    x = Conv1D(filters=filter_length,
-               kernel_size=kernel_size,
-               padding='same',
-               strides=1,
-               kernel_initializer='he_normal')(x)
-    # x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    # x = Dropout(config.drop_rate)(x)
-    x = MaxPooling1D(pool_size=2, strides=2)(x)
-
-    # filter size : 32, filter length : 16
-    # w/o drop out : 0.83
-    # w dropout : 0.89
-    # after flatten : 0.86
-    # similar implementation to maxpool
-    # x = Dropout(config.drop_rate)(x)
-
-    # filter size : 16, filter length : 7
-    # w/o drop out : 0.82
-    # w dropout : 0.89
-    # after flatten : 0.80
-    # all dropout : 0.91
-    # 1 dropout : 0.89
-    # x = Dropout(config.drop_rate)(x)
-
-    # Final bit
-    # x = BatchNormalization()(x)
+    # filter_length = params["conv_filter_length"]
+    # kernel_size = params["conv_num_filters_start"]
+    # x = Conv1D(filters=filter_length,
+    #            kernel_size=kernel_size,
+    #            padding='same',
+    #            strides=1,
+    #            kernel_initializer='he_normal')(inputs)
+    # # x = BatchNormalization()(x)
     # x = Activation('relu')(x)
-    x = Flatten()(x)
-    # x = Dropout(config.drop_rate)(x)
-
-    x = Dense(64, activation='relu')(x)
-    x = Dropout(0.5)(x)
-
-    x = Dense(64, activation='relu')(x)
-    x = Dropout(0.5)(x)
-
-    out = Dense(4, activation='softmax')(x)
-    model = Model(inputs=inputs, outputs=out)
-    model.compile(optimizer='adam',
-                  loss='categorical_crossentropy',
-                  metrics=['accuracy'])
-    model.summary()
+    # x = MaxPooling1D(pool_size=2, strides=2)(x)
+    # # x = Dropout(config.drop_rate)(x)
+    # x = Conv1D(filters=filter_length,
+    #            kernel_size=kernel_size,
+    #            padding='same',
+    #            strides=1,
+    #            kernel_initializer='he_normal')(x)
+    # # x = BatchNormalization()(x)
+    # x = Activation('relu')(x)
+    # x = MaxPooling1D(pool_size=2, strides=2)(x)
+    # # x = Dropout(config.drop_rate)(x)
+    # # similar implementation to maxpool
+    # # x = Dropout(0.2)(x)
+    # # x = BatchNormalization()(x)
+    # ## 2 convolutional block (conv,BN, relu)
+    # x = Conv1D(filters=filter_length,
+    #            kernel_size=kernel_size,
+    #            padding='same',
+    #            strides=1,
+    #            kernel_initializer='he_normal')(x)
+    # # x = BatchNormalization()(x)
+    # x = Activation('relu')(x)
+    # x = MaxPooling1D(pool_size=2, strides=2)(x)
+    # # x = Dropout(config.drop_rate)(x)
+    # ## 3 convolutional block (conv,BN, relu)
+    # x = Conv1D(filters=filter_length,
+    #            kernel_size=kernel_size,
+    #            padding='same',
+    #            strides=1,
+    #            kernel_initializer='he_normal')(x)
+    # # x = BatchNormalization()(x)
+    # x = Activation('relu')(x)
+    # # x = Dropout(config.drop_rate)(x)
+    # x = MaxPooling1D(pool_size=2, strides=2)(x)
+    #
+    # # filter size : 32, filter length : 16
+    # # w/o drop out : 0.83
+    # # w dropout : 0.89
+    # # after flatten : 0.86
+    # # similar implementation to maxpool
+    # # x = Dropout(config.drop_rate)(x)
+    #
+    # # filter size : 16, filter length : 7
+    # # w/o drop out : 0.82
+    # # w dropout : 0.89
+    # # after flatten : 0.80
+    # # all dropout : 0.91
+    # # 1 dropout : 0.89
+    # # x = Dropout(config.drop_rate)(x)
+    #
+    # # Final bit
+    # # x = BatchNormalization()(x)
+    # # x = Activation('relu')(x)
+    # x = Flatten()(x)
+    # # x = Dropout(config.drop_rate)(x)
+    #
+    # x = Dense(64, activation='relu')(x)
+    # x = Dropout(0.5)(x)
+    #
+    # x = Dense(64, activation='relu')(x)
+    # x = Dropout(0.5)(x)
+    #
+    # out = Dense(4, activation='softmax')(x)
+    # model = Model(inputs=inputs, outputs=out)
+    # model.compile(optimizer='adam',
+    #               loss='categorical_crossentropy',
+    #               metrics=['accuracy'])
+    # model.summary()
     return model
