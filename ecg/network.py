@@ -139,8 +139,10 @@ def build_network(**params):
     #     add_compile(model, **params)
 
     # small
-    x = Conv1D(filters=config.filter_length,
-               kernel_size=config.kernel_size,
+    filter_length = params["conv_filter_length"]
+    kernel_size = params["conv_num_filters_start"]
+    x = Conv1D(filters=filter_length,
+               kernel_size=kernel_size,
                padding='same',
                strides=1,
                kernel_initializer='he_normal')(inputs)
@@ -148,8 +150,8 @@ def build_network(**params):
     x = Activation('relu')(x)
     x = MaxPooling1D(pool_size=2, strides=2)(x)
     # x = Dropout(config.drop_rate)(x)
-    x = Conv1D(filters=config.filter_length,
-               kernel_size=config.kernel_size,
+    x = Conv1D(filters=filter_length,
+               kernel_size=kernel_size,
                padding='same',
                strides=1,
                kernel_initializer='he_normal')(x)
@@ -161,8 +163,8 @@ def build_network(**params):
     # x = Dropout(0.2)(x)
     # x = BatchNormalization()(x)
     ## 2 convolutional block (conv,BN, relu)
-    x = Conv1D(filters=config.filter_length,
-               kernel_size=config.kernel_size,
+    x = Conv1D(filters=filter_length,
+               kernel_size=kernel_size,
                padding='same',
                strides=1,
                kernel_initializer='he_normal')(x)
@@ -171,8 +173,8 @@ def build_network(**params):
     x = MaxPooling1D(pool_size=2, strides=2)(x)
     # x = Dropout(config.drop_rate)(x)
     ## 3 convolutional block (conv,BN, relu)
-    x = Conv1D(filters=config.filter_length,
-               kernel_size=config.kernel_size,
+    x = Conv1D(filters=filter_length,
+               kernel_size=kernel_size,
                padding='same',
                strides=1,
                kernel_initializer='he_normal')(x)
@@ -203,12 +205,12 @@ def build_network(**params):
     # x = Dropout(config.drop_rate)(x)
 
     x = Dense(64, activation='relu')(x)
-    x = Dropout(config.drop_rate_large)(x)
+    x = Dropout(0.5)(x)
 
     x = Dense(64, activation='relu')(x)
-    x = Dropout(config.drop_rate_large)(x)
+    x = Dropout(0.5)(x)
 
-    out = Dense(len_classes, activation='softmax')(x)
+    out = Dense(4, activation='softmax')(x)
     model = Model(inputs=inputs, outputs=out)
     model.compile(optimizer='adam',
                   loss='categorical_crossentropy',
