@@ -19,9 +19,9 @@ batch_size=32
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.kernel_size = 16
+        self.kernel_size = 7
         self.padding_size = 0
-        self.channel_size = 32
+        self.channel_size = 16
         self.avgpool1 = nn.AvgPool1d(kernel_size=2, stride=2)
         self.avgpool2 = nn.AvgPool1d(kernel_size=2, stride=2)
         self.avgpool3 = nn.AvgPool1d(kernel_size=2, stride=2)
@@ -37,7 +37,7 @@ class Net(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(1024, 64)
+        self.fc1 = nn.Linear(512, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
 
@@ -57,6 +57,7 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         y = self.fc3(x)
         return y
+
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
@@ -78,8 +79,8 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(1024, 64)
-        self.fc2 = nn.Linear(64, 64)
+        self.fc1 = nn.Linear(1024, 16)
+        self.fc2 = nn.Linear(16, 64)
         self.fc3 = nn.Linear(64, 4)
 
     def forward(self, x):
@@ -99,7 +100,7 @@ class NetMaxpool(nn.Module):
         y = self.fc3(x)
         return y
 
-model = NetMaxpool()
+model = Net()
 
 
 class ECGDataset(Dataset):
@@ -127,10 +128,6 @@ optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
-# get the validation set
-x_val, y_val = Variable(val_x), Variable(val_y)
-val_inputs = x_val.unsqueeze(1)
-val_labels = torch.argmax(y_val, dim=1)
 
 def train(epoch):
     tr_loss = 0.0
@@ -140,7 +137,6 @@ def train(epoch):
         # get the inputs
         tr_inputs, tr_labels = data
 
-
         # zero the parameter gradients
         optimizer.zero_grad()
 
@@ -149,22 +145,37 @@ def train(epoch):
 
         # one-hot to label
         tr_labels = torch.argmax(tr_labels, dim=1)
+        # tr_labels = Variable(tr_labels)
+
+        # get the validation set
+        x_val, y_val = Variable(val_x), Variable(val_y)
+        val_inputs = x_val.unsqueeze(1)
+        val_labels = torch.argmax(y_val, dim=1)
+
 
         # forward + backward + optimize
         tr_outputs = model(tr_inputs)
         val_outputs = model(val_inputs)
 
+        # softmax
+        # print('tr_outputs', tr_outputs.shape)
+        # print('tr_outputs before softmax', tr_outputs[0])
+        # tr_outputs = torch.softmax(tr_outputs, dim=-1)
+        # print('tr_outputs after softmax', tr_outputs[0])
+        # val_outputs = torch.softmax(val_outputs, dim=-1)
+
         # loss
         loss_train = criterion(tr_outputs, tr_labels)
         loss_val = criterion(val_outputs, val_labels)
-        batch_tr_loss = loss_train.detach().item()
-        batch_val_loss = loss_val.detach().item()
-        train_losses.append(batch_tr_loss)
-        val_losses.append(batch_val_loss)
 
         # computing the updated weights of all the model parameters
         loss_train.backward()
         optimizer.step()
+
+        batch_tr_loss = loss_train.detach().item()
+        batch_val_loss = loss_val.detach().item()
+        train_losses.append(batch_tr_loss)
+        val_losses.append(batch_val_loss)
 
         # print statistics
         tr_loss += batch_tr_loss
@@ -177,7 +188,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 3
+n_epochs = 15
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
