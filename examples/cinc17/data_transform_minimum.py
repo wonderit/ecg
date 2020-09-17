@@ -44,15 +44,15 @@ filtered_test_x, _, _ = st.filter_signal(signal=X_test,
                                           sampling_rate=100)
 
 
-# X_threshold = apply_threshold(filtered_train_x, 4000)
-# test_x_thres = apply_threshold(filtered_test_x, 4000)
-# current_x = scale_maxabs(X_threshold, np.max(np.abs(X_threshold)), 100)
-# current_test_x = scale_maxabs(test_x_thres, np.max(np.abs(test_x_thres)), 100)
-#
-mean, std = compute_mean_std(filtered_train_x)
-print(mean, std)
-current_x = (filtered_train_x - mean) / std
-current_test_x = (filtered_test_x - mean) / std
+X_threshold = apply_threshold(filtered_train_x, 4000)
+test_x_thres = apply_threshold(filtered_test_x, 4000)
+current_x = scale_maxabs(X_threshold, np.max(np.abs(X_threshold)), 30)
+current_test_x = scale_maxabs(test_x_thres, np.max(np.abs(test_x_thres)), 30)
+
+# mean, std = compute_mean_std(filtered_train_x)
+# print(mean, std)
+# current_x = (filtered_train_x - mean) / std
+# current_test_x = (filtered_test_x - mean) / std
 import os
 data_dir = '../../minimum_data'
 

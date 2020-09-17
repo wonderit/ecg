@@ -331,7 +331,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 30
+n_epochs = 50
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
