@@ -124,7 +124,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
@@ -188,7 +188,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 15
+n_epochs = 10
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
