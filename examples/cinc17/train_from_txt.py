@@ -77,11 +77,11 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.conv22 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
+        self.conv22 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv3 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.conv33 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
+        self.conv33 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv4 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
