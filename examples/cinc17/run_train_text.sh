@@ -1,1 +1,1 @@
-nohup python -u train_from_txt.py > train_text.log &
+nohup python -u train_from_txt.py > train_text_4layer_drop5.log &
