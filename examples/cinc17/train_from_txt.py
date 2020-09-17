@@ -275,7 +275,7 @@ val_y = torch.from_numpy(test_y).float()
 def train(epoch):
     tr_loss = 0.0
     val_loss = 0.0
-    model.train()
+
     for batch_idx, data in enumerate(train_loader):
         # get the inputs
         tr_inputs, tr_labels = data
@@ -295,9 +295,11 @@ def train(epoch):
         val_inputs = x_val.unsqueeze(1)
         val_labels = torch.argmax(y_val, dim=1)
 
-
+        model.train()
         # forward + backward + optimize
         tr_outputs = model(tr_inputs)
+
+        model.eval()
         val_outputs = model(val_inputs)
 
         # softmax
