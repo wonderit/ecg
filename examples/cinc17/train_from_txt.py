@@ -105,8 +105,8 @@ model = NetMaxpool()
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
-        self.data = data.astype(np.float32)
-        self.target = target.astype(np.float32)
+        self.data = torch.from_numpy(data).float()
+        self.target = torch.from_numpy(target).float()
 
     def __getitem__(self, index):
         x = self.data[index]
