@@ -71,6 +71,7 @@ class NetMaxpool(nn.Module):
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool6 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv11 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
@@ -87,7 +88,9 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(512, 64)
+        self.conv6 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
+        self.fc1 = nn.Linear(256, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
         self.dropout1 = nn.Dropout(0.5)
@@ -98,22 +101,24 @@ class NetMaxpool(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1(x))  # 32
         # x = F.relu(self.conv11(x))  # 32
-        x = self.dropout(x)
+        # x = self.dropout(x)
         x = self.maxpool1(x)  # 32
         x = F.relu(self.conv2(x))
         # x = F.relu(self.conv22(x))
-        x = self.dropout(x)
+        # x = self.dropout(x)
         x = self.maxpool2(x)
         x = F.relu(self.conv3(x))
         # x = F.relu(self.conv33(x))
-        x = self.dropout(x)
+        # x = self.dropout(x)
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         # x = F.relu(self.conv5(x))
-        x = self.dropout(x)
+        # x = self.dropout(x)
         x = self.maxpool4(x)
-        # x = F.relu(self.conv5(x))
-        # x = self.maxpool5(x)
+        x = F.relu(self.conv5(x))
+        x = self.maxpool5(x)
+        x = F.relu(self.conv6(x))
+        x = self.maxpool6(x)
         x = x.view(x.shape[0], -1)
         x = self.fc1(x)
         x = self.dropout1(x)
@@ -267,7 +272,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
