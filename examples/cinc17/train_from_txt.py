@@ -59,7 +59,7 @@ class Net(nn.Module):
         return y
 class NetMaxpool(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super(NetMaxpool, self).__init__()
         self.kernel_size = 7
         self.padding_size = 0
         self.channel_size = 16
@@ -91,8 +91,8 @@ class NetMaxpool(nn.Module):
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         x = self.maxpool4(x)
-        x = F.relu(self.conv5(x))
-        x = self.maxpool5(x)
+        # x = F.relu(self.conv5(x))
+        # x = self.maxpool5(x)
         x = x.view(x.shape[0], -1)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
