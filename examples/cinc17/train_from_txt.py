@@ -57,8 +57,49 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         y = self.fc3(x)
         return y
+class NetMaxpool(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.kernel_size = 7
+        self.padding_size = 0
+        self.channel_size = 16
+        self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
+        self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
+        self.conv3 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
+        self.conv4 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
+        self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+                               padding=(self.kernel_size // 2))
+        self.fc1 = nn.Linear(1024, 64)
+        self.fc2 = nn.Linear(64, 64)
+        self.fc3 = nn.Linear(64, 4)
 
-model = Net()
+    def forward(self, x):
+        x = F.relu(self.conv1(x))  # 32
+        x = self.maxpool1(x)  # 32
+        x = F.relu(self.conv2(x))
+        x = self.maxpool2(x)
+        x = F.relu(self.conv3(x))
+        x = self.maxpool3(x)
+        x = F.relu(self.conv4(x))
+        x = self.maxpool4(x)
+        x = F.relu(self.conv5(x))
+        x = self.maxpool5(x)
+        x = x.view(x.shape[0], -1)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        y = self.fc3(x)
+        return y
+
+model = NetMaxpool()
 
 
 class ECGDataset(Dataset):
@@ -82,7 +123,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
