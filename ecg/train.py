@@ -76,7 +76,6 @@ def train(args, params):
 
         print('train_gen shape : ', train_gen.shape)
         print('dev_gen shape : ', train_gen.shape)
-        exit()
 
         model.fit_generator(
             train_gen,
