@@ -37,7 +37,7 @@ class Net(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(512, 64)
+        self.fc1 = nn.Linear(128, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
 
@@ -79,7 +79,7 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         # self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
         #                        padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(1024, 64)
+        self.fc1 = nn.Linear(256, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
 
@@ -188,7 +188,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 20
+n_epochs = 10
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
@@ -213,6 +213,34 @@ print('1:', len(val_labels[val_labels == 1]))
 print('2:', len(val_labels[val_labels == 2]))
 print('3:', len(val_labels[val_labels == 3]))
 ground_truth = val_labels
+
+# #  Evaluation
+# model_path = "../../../saved/cinc17/1597729558-4/0.415-0.863-017-0.264-0.910.hdf5"
+# data_path = "../dev.json"
+# import sys
+# sys.path.append("../../../ecg")
+# import scipy.stats as sst
+#
+# import load
+# import util
+#
+# data = load.load_dataset(data_path)
+# preproc = util.load(os.path.dirname(model_path))
+#
+# prior = [[[0.15448743, 0.66301941, 0.34596848, 0.09691286]]]
+#
+# probs = []
+# labels = []
+# for x, y  in zip(*data):
+#     x, y = preproc.process([x], [y])
+#     print(x.shape)
+#     print(y.shape)
+#     exit()
+#     probs.append(model.predict(x))
+#     print(sst.mode(np.argmax(probs[0] / prior, axis=2).squeeze()))
+#     break
+#     labels.append(y)
+
 preds = torch.argmax(model(val_inputs), dim=1)
 
 import sklearn.metrics as skm

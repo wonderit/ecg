@@ -126,17 +126,17 @@ def train(args, params):
         #     random_train_y.append(train_y[i, tr_i, :])
 
 
-        # all_train_x = []
-        # all_train_y = []
-        # n_sample = 5
-        # for i in range(train_x.shape[0]):
-        #     # get random index window for n times
-        #
-        #     for j in range(n_sample):
-        #         # tr_i = np.random.choice(train_x.shape[1] // window_size, 1)[0]
-        #         tr_i = j
-        #         all_train_x.append(train_x[i, tr_i*window_size:(tr_i+1)*window_size, :])
-        #         all_train_y.append(train_y[i, tr_i, :])
+        all_train_x = []
+        all_train_y = []
+        n_sample = 1
+        for i in range(train_x.shape[0]):
+            # get random index window for n times
+
+            for j in range(n_sample):
+                # tr_i = np.random.choice(train_x.shape[1] // window_size, 1)[0]
+                tr_i = j
+                all_train_x.append(train_x[i, tr_i*window_size:(tr_i+1)*window_size, :])
+                all_train_y.append(train_y[i, tr_i, :])
 
         # random_test_x = []
         # random_test_y = []
@@ -149,17 +149,18 @@ def train(args, params):
         #     random_test_y.append(test_y[j, te_i, :])
         # r_i = np.random.choice(test_x.shape[1] // window_size, 1)[0]
         r_i = 0
-        r_length = 4
+        r_length = 1
         # print('random number : ', np.random.choice(test_x.shape[1] // window_size, 1)[0])
-        train_x = train_x[:, 256 * r_i:256 * (r_i+1)* r_length, :]
-        train_y = train_y[:, r_i, :]
+        # train_x = train_x[:, 256 * r_i:256 * (r_i+1)* r_length, :]
+        # train_y = train_y[:, r_i, :]
 
         test_x = test_x[:, 256 * r_i:256 * (r_i+1) * r_length, :]
         test_y = test_y[:, r_i, :]
-        # train_x = np.array(random_train_x)
+        train_x = np.array(all_train_x)
+        train_y = np.array(all_train_y)
+
         # test_x = np.array(random_test_x)
         # train_x = np.array(train_x)
-        # train_y = np.array(train_y)
 
         train_x = np.squeeze(train_x, axis=(2,))
         test_x = np.squeeze(test_x, axis=(2,))
