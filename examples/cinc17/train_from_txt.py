@@ -214,43 +214,18 @@ print('2:', len(val_labels[val_labels == 2]))
 print('3:', len(val_labels[val_labels == 3]))
 ground_truth = val_labels
 
-# #  Evaluation
-# model_path = "../../../saved/cinc17/1597729558-4/0.415-0.863-017-0.264-0.910.hdf5"
-# data_path = "../dev.json"
-# import sys
-# sys.path.append("../../../ecg")
-# import scipy.stats as sst
-#
-# import load
-# import util
-#
-# data = load.load_dataset(data_path)
-# preproc = util.load(os.path.dirname(model_path))
-#
 prior = [0.15448743, 0.66301941, 0.34596848, 0.09691286]
-#
-# probs = []
-# labels = []
-# for x, y  in zip(*data):
-#     x, y = preproc.process([x], [y])
-#     print(x.shape)
-#     print(y.shape)
-#     exit()
-#     probs.append(model.predict(x))
-#     print(sst.mode(np.argmax(probs[0] / prior, axis=2).squeeze()))
-#     break
-#     labels.append(y)
+
+
+# using prior
+
 probs = []
 val_outputs = model(val_inputs)
 np_outputs = val_outputs.detach().numpy()
-# print(val_outputs[0])
-# print(nn.Softmax(dim=1)(val_outputs)[0])
-# ss = nn.Softmax(dim=1)(val_outputs) / torch.from_numpy(np.array(prior))
-# print(ss[0])
-# preds = torch.argmax(ss, dim=1)
 from scipy.special import softmax
 for output_array in np_outputs:
-    ss = softmax(output_array) / np.array(prior)
+    ss = softmax(output_array)
+    # ss = softmax(output_array) / np.array(prior)
     probs.append(np.argmax(ss))
 
 preds = np.array(probs)
