@@ -105,8 +105,8 @@ class NetMaxpool(nn.Module):
 class ML4CVD(nn.Module):
     def __init__(self):
         super(ML4CVD, self).__init__()
-        self.kernel_size = 35
-        self.padding_size = 18
+        self.kernel_size = 71
+        self.padding_size = 35
         self.channel_size = 32
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size, padding=self.padding_size)
         self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
@@ -124,7 +124,7 @@ class ML4CVD(nn.Module):
         self.conv9 = nn.Conv1d(32, 16, kernel_size=self.kernel_size, padding=self.padding_size)
         self.fc1 = nn.Linear(12288, 16)
         self.fc2 = nn.Linear(16, 64)
-        self.fc3 = nn.Linear(64, 1)
+        self.fc3 = nn.Linear(64, 4)
         # self.fc1 = nn.Linear(5620, 1)
 
     def forward(self, x):
@@ -163,6 +163,8 @@ class ML4CVD(nn.Module):
 
 # model = NetMaxpool()
 model = ML4CVD()
+from torchsummary import summary
+summary(model, input_size =(1, 2048), batch_size=32)
 
 
 class ECGDataset(Dataset):
