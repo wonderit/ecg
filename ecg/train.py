@@ -128,7 +128,7 @@ def train(args, params):
 
         all_train_x = []
         all_train_y = []
-        n_sample = 4
+        n_sample = 1
         for i in range(train_x.shape[0]):
             # get random index window for n times
 
@@ -195,14 +195,14 @@ def train(args, params):
         np.savetxt('{}/{}'.format(data_dir, file_name_train_y), train_y, delimiter=',', fmt='%1.8f')
         np.savetxt('{}/{}'.format(data_dir, file_name_test_x), test_x, delimiter=',', fmt='%1.8f')
         np.savetxt('{}/{}'.format(data_dir, file_name_test_y), test_y, delimiter=',', fmt='%1.8f')
-        exit()
+        # exit()
 
-        # model.fit(
-        #     train_x, train_y,
-        #     batch_size=batch_size,
-        #     epochs=MAX_EPOCHS,
-        #     validation_data=(dev_x, dev_y),
-        #     callbacks=[checkpointer, reduce_lr, stopping])
+        model.fit(
+            train_x, train_y,
+            batch_size=batch_size,
+            epochs=MAX_EPOCHS,
+            validation_data=(dev_x, dev_y),
+            callbacks=[checkpointer, reduce_lr, stopping])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
