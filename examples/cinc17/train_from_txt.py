@@ -15,7 +15,7 @@ test_y = np.genfromtxt('../../processed_data/ytest', delimiter=',', dtype='float
 
 print('Data Loading finished (row:{})'.format(len(train_x)))
 
-batch_size=32
+batch_size=256
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
