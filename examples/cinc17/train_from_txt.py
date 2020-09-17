@@ -6,7 +6,6 @@ from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
-from multiprocessing import Manager
 
 train_x = np.genfromtxt('../../processed_data/Xtrain', delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../processed_data/ytrain', delimiter=',', dtype='float')
@@ -141,7 +140,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 2
+n_epochs = 15
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
