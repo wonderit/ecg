@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
 torch.manual_seed(0)
-data_dir = 'subsampled_data'
+data_dir = 'minimum_data'
 
 train_x = np.genfromtxt('../../{}/Xtrain'.format(data_dir), delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../{}/ytrain'.format(data_dir), delimiter=',', dtype='float')
@@ -63,14 +63,14 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 16
+        self.kernel_size = 7
         self.padding_size = 0
         self.channel_size = 16
         self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
-        self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
+        # self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
@@ -79,9 +79,9 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv4 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
-                               padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(1024, 64)
+        # self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
+        #                        padding=(self.kernel_size // 2))
+        self.fc1 = nn.Linear(256, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
 
@@ -94,13 +94,71 @@ class NetMaxpool(nn.Module):
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         x = self.maxpool4(x)
-        x = F.relu(self.conv5(x))
-        x = self.maxpool5(x)
+        # x = F.relu(self.conv5(x))
+        # x = self.maxpool5(x)
         x = x.view(x.shape[0], -1)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         y = self.fc3(x)
         return y
+
+
+
+class ML4CVD_shallow(nn.Module):
+    def __init__(self):
+        super(ML4CVD_shallow, self).__init__()
+        self.kernel_size = 7
+        self.padding_size = 3
+        self.channel_size = 16
+        self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.conv3 = nn.Conv1d(self.channel_size * 2, self.channel_size, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.conv4 = nn.Conv1d(self.channel_size * 3, 24, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.avgpool1 = nn.AvgPool1d(kernel_size=2, stride=2)
+        self.conv5 = nn.Conv1d(24, 24, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.conv6 = nn.Conv1d(48, 24, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.conv7 = nn.Conv1d(72, 16, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.conv8 = nn.Conv1d(16, 16, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.conv9 = nn.Conv1d(32, 16, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.fc1 = nn.Linear(12288, 16)
+        self.fc2 = nn.Linear(16, 64)
+        self.fc3 = nn.Linear(64, 4)
+        # self.fc1 = nn.Linear(5620, 1)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x)) # 32
+        x = F.relu(self.conv2(x)) # 32
+        x = self.avgpool1(x) # 32
+        x1 = F.relu(self.conv2(x))
+        c1 = torch.cat((x, x1), dim=1) # 64
+        x2 = F.relu(self.conv3(c1)) # 32
+        y = torch.cat((x, x1, x2), dim=1) # 96
+        # downsizing
+        y = F.relu(self.conv4(y)) # 24
+        y = self.avgpool1(y)
+
+        x3 = F.relu(self.conv5(y))
+        c2 = torch.cat((y, x3), dim=1)
+        x4 = F.relu(self.conv6(c2))
+        y = torch.cat((y, x3, x4), dim=1)
+
+        y = F.relu(self.conv7(y))
+        y = self.avgpool1(y)
+
+        x5 = F.relu(self.conv8(y))
+        c3 = torch.cat((y, x5), dim=1)
+        x6 = F.relu(self.conv9(c3))
+        y = torch.cat((y, x5, x6), dim=1)
+
+        # Flatten
+        y = y.view(y.size(0), -1)
+
+        y = F.relu(self.fc1(y))
+        y = F.relu(self.fc2(y))
+        y = self.fc3(y)
+
+        return y
+
 
 class ML4CVD(nn.Module):
     def __init__(self):
@@ -161,10 +219,10 @@ class ML4CVD(nn.Module):
 
         return y
 
-# model = NetMaxpool()
-model = ML4CVD()
+model = NetMaxpool()
+# model = ML4CVD_shallow()
 from torchsummary import summary
-summary(model, input_size =(1, 2048), batch_size=32)
+summary(model, input_size =(1, 256), batch_size=32)
 
 
 class ECGDataset(Dataset):
@@ -252,7 +310,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 20
+n_epochs = 2
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
