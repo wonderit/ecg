@@ -6,6 +6,7 @@ from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
+from multiprocessing import Manager
 
 train_x = np.genfromtxt('../../processed_data/Xtrain', delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../processed_data/ytrain', delimiter=',', dtype='float')
@@ -63,10 +64,12 @@ model = Net()
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
-        # self.data = torch.from_numpy(data).float()
-        # self.target = torch.from_numpy(target).float()
+        # manager = Manager()
+
         self.data = data.astype(np.float32)
         self.target = target.astype(np.float32)
+        # self.data = manager.list(data.astype(np.float32))
+        # self.target = manager.list(target.astype(np.float32))
 
     def __getitem__(self, index):
         x = self.data[index]
@@ -79,8 +82,8 @@ class ECGDataset(Dataset):
 
 train_dataset = ECGDataset(train_x, train_y)
 test_dataset = ECGDataset(test_x, test_y)
-train_loader = torch.utils.data.DataLoader(train_dataset, num_workers=0, batch_size=batch_size, shuffle=False)
-test_loader = torch.utils.data.DataLoader(test_dataset, num_workers=0, batch_size=batch_size, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
@@ -118,16 +121,18 @@ def train(epoch):
         # loss
         loss_train = criterion(tr_outputs, tr_labels)
         loss_val = criterion(val_outputs, val_labels)
-        train_losses.append(loss_train)
-        val_losses.append(loss_val)
+        batch_tr_loss = loss_train.detach().item()
+        batch_val_loss = loss_val.detach().item()
+        train_losses.append(batch_tr_loss)
+        val_losses.append(batch_val_loss)
 
         # computing the updated weights of all the model parameters
         loss_train.backward()
         optimizer.step()
 
         # print statistics
-        tr_loss += loss_train.item()
-        val_loss += loss_val.item()
+        tr_loss += batch_tr_loss
+        val_loss += batch_val_loss
         if batch_idx % 100 == 99:  # print every 2000 mini-batches
             print('[%d, %5d] train loss: %.6f, val loss : %.6f' %
                   (epoch + 1, batch_idx + 1, tr_loss / 100, val_loss / 100))
