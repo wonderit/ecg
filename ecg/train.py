@@ -161,8 +161,8 @@ def train(args, params):
         # test_x = np.array(random_test_x)
         # train_x = np.array(train_x)
 
-        train_x = np.squeeze(train_x, axis=(2,))
-        test_x = np.squeeze(test_x, axis=(2,))
+        # train_x = np.squeeze(train_x, axis=(2,))
+        # test_x = np.squeeze(test_x, axis=(2,))
 
         print('train_x m, s: ', train_x.mean(), train_x.std())
         print('train_x min, max: ', train_x.min(), train_x.max())
