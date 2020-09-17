@@ -14,7 +14,7 @@
     "train": "examples/cinc17/train.json",
     "dev": "examples/cinc17/dev.json",
 
-    "generator": true,
+    "generator": false,
 
     "save_dir": "saved"
 }
