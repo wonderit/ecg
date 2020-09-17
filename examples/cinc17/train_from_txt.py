@@ -69,7 +69,7 @@ class NetMaxpool(nn.Module):
         self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
-        # self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
         # self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
