@@ -92,15 +92,15 @@ class NetMaxpool(nn.Module):
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         x = self.maxpool4(x)
-        # x = F.relu(self.conv5(x))
-        # x = self.maxpool5(x)
+        x = F.relu(self.conv5(x))
+        x = self.maxpool5(x)
         x = x.view(x.shape[0], -1)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         y = self.fc3(x)
         return y
 
-model = Net()
+model = NetMaxpool()
 
 
 class ECGDataset(Dataset):
