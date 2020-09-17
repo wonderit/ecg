@@ -38,7 +38,7 @@ class Preproc:
 
     def process_x(self, x):
         x = pad(x)
-        x = (x - self.mean) / self.std
+        # x = (x - self.mean) / self.std
         x = x[:, :, None]
         return x
 
@@ -65,12 +65,7 @@ def load_dataset(data_json):
     with open(data_json, 'r') as fid:
         data = [json.loads(l) for l in fid]
     labels = []; ecgs = []
-    # count = 0
     for d in tqdm.tqdm(data):
-        # count = count+1
-        # if count == 11:
-        #     print('d', d)
-        #     exit()
         labels.append(d['labels'])
         ecgs.append(load_ecg(d['ecg']))
     return ecgs, labels
