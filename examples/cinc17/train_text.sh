@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python etrain_from_txt.py
+python train_from_txt.py
