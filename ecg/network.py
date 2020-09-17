@@ -124,7 +124,7 @@ def add_compile(model, **params):
 def build_network(**params):
     from keras.models import Model
     from keras.layers import Input
-    inputs = Input(shape=(256 * 71, 1),
+    inputs = Input(shape=params['input_shape'],
                    dtype='float32',
                    name='inputs')
     # original
