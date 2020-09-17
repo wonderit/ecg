@@ -87,7 +87,7 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(1024, 64)
+        self.fc1 = nn.Linear(1056, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
         self.dropout1 = nn.Dropout(0.5)
@@ -124,19 +124,18 @@ class ML4CVD_shallow(nn.Module):
     def __init__(self):
         super(ML4CVD_shallow, self).__init__()
         self.kernel_size = 7
-        self.padding_size = 3
-        self.channel_size = 16
-        self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.conv3 = nn.Conv1d(self.channel_size * 2, self.channel_size, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.conv4 = nn.Conv1d(self.channel_size * 3, 24, kernel_size=self.kernel_size, padding=self.padding_size)
+        self.channel_size = 8
+        self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.conv3 = nn.Conv1d(self.channel_size * 2, self.channel_size, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.conv4 = nn.Conv1d(self.channel_size * 3, 24, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
         self.avgpool1 = nn.AvgPool1d(kernel_size=2, stride=2)
-        self.conv5 = nn.Conv1d(24, 24, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.conv6 = nn.Conv1d(48, 24, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.conv7 = nn.Conv1d(72, 16, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.conv8 = nn.Conv1d(16, 16, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.conv9 = nn.Conv1d(32, 16, kernel_size=self.kernel_size, padding=self.padding_size)
-        self.fc1 = nn.Linear(12288, 16)
+        self.conv5 = nn.Conv1d(24, 24, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.conv6 = nn.Conv1d(48, 24, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.conv7 = nn.Conv1d(72, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.conv8 = nn.Conv1d(16, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.conv9 = nn.Conv1d(32, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
+        self.fc1 = nn.Linear(3072, 16)
         self.fc2 = nn.Linear(16, 64)
         self.fc3 = nn.Linear(64, 4)
         # self.fc1 = nn.Linear(5620, 1)
@@ -235,8 +234,8 @@ class ML4CVD(nn.Module):
 
         return y
 
-model = NetMaxpool()
-# model = ML4CVD_shallow()
+# model = NetMaxpool()
+model = ML4CVD_shallow()
 from torchsummary import summary
 summary(model, input_size =(1, 512), batch_size=32)
 
