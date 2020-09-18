@@ -141,8 +141,10 @@ class ML4CVD_shallow(nn.Module):
         self.conv7 = nn.Conv1d(72, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
         self.conv8 = nn.Conv1d(16, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
         self.conv9 = nn.Conv1d(32, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(3072, 16)
-        self.fc2 = nn.Linear(16, 64)
+        self.dropout1 = nn.Dropout(0.5)
+        self.dropout2 = nn.Dropout(0.5)
+        self.fc1 = nn.Linear(3072, 64)
+        self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
         # self.fc1 = nn.Linear(5620, 1)
 
@@ -175,7 +177,9 @@ class ML4CVD_shallow(nn.Module):
         y = y.view(y.size(0), -1)
 
         y = F.relu(self.fc1(y))
+        y = self.dropout1(y)
         y = F.relu(self.fc2(y))
+        y = self.dropout2(y)
         y = self.fc3(y)
 
         return y
