@@ -130,7 +130,7 @@ class ML4CVD_shallow(nn.Module):
     def __init__(self):
         super(ML4CVD_shallow, self).__init__()
         self.kernel_size = 7
-        self.channel_size = 8
+        self.channel_size = 16
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
         self.conv2 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
         self.conv3 = nn.Conv1d(self.channel_size * 2, self.channel_size, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
