@@ -5,6 +5,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
+from torchsummary import summary
 from torch.autograd import Variable
 import time
 
@@ -20,6 +21,8 @@ test_y = np.genfromtxt('../../{}/ytest'.format(data_dir), delimiter=',', dtype='
 print('Data Loading finished (row:{})'.format(len(train_x)))
 
 batch_size = 32
+
+
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -136,7 +139,6 @@ class NetMaxpool(nn.Module):
         x = F.relu(x)
         y = self.fc3(x)
         return y
-
 
 
 class ML4CVD_shallow(nn.Module):
@@ -257,9 +259,9 @@ class ML4CVD(nn.Module):
 
         return y
 
+
 model = NetMaxpool()
 # model = ML4CVD_shallow()
-from torchsummary import summary
 summary(model, input_size =(1, 512), batch_size=batch_size)
 
 

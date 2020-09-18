@@ -1,5 +1,6 @@
 from keras import backend as K
 from keras.layers import Conv1D, Dense, Flatten, Dropout,MaxPooling1D, Activation
+from keras.layers.wrappers import TimeDistributed
 
 def _bn_relu(layer, dropout=0, **params):
     from keras.layers import BatchNormalization
@@ -113,10 +114,11 @@ def add_output_layer(layer, **params):
 
 def add_compile(model, **params):
     from keras.optimizers import Adam
+    # optimizer = Adam(
+    #     lr=params["learning_rate"],
+    #     clipnorm=params.get("clipnorm", 1))
     optimizer = Adam(
-        lr=params["learning_rate"],
-        clipnorm=params.get("clipnorm", 1))
-
+        lr=params["learning_rate"])
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizer,
                   metrics=['accuracy'])
@@ -128,10 +130,12 @@ def build_network(**params):
                    dtype='float32',
                    name='inputs')
     # original
-    if params.get('is_regular_conv', False):
-        layer = add_conv_layers(inputs, **params)
-    else:
-        layer = add_resnet_layers(inputs, **params)
+    # if params.get('is_regular_conv', False):
+    #     layer = add_conv_layers(inputs, **params)
+    # else:
+    #     layer = add_resnet_layers(inputs, **params)
+
+    layer = add_conv_layers(inputs, **params)
 
     output = add_output_layer(layer, **params)
     model = Model(inputs=[inputs], outputs=[output])
@@ -140,15 +144,24 @@ def build_network(**params):
 
     # small
     # filter_length = params["conv_filter_length"]
-    # kernel_size = params["conv_num_filters_start"]
-    # x = Conv1D(filters=filter_length,
-    #            kernel_size=kernel_size,
-    #            padding='same',
-    #            strides=1,
-    #            kernel_initializer='he_normal')(inputs)
+    # num_filters = params["conv_num_filters_start"]
+    # layer = Conv1D(
+    #     filters=num_filters,
+    #     kernel_size=filter_length,
+    #     strides=1,
+    #     padding='same',
+    #     kernel_initializer=params["conv_init"])(inputs)
+    # # x = Conv1D(filters=filter_length,
+    # #            kernel_size=kernel_size,
+    # #            padding='same',
+    # #            strides=1,
+    # #            kernel_initializer='he_normal')(inputs)
+    # layer = Dropout(params["conv_dropout"])(layer)
+    #
+    #
     # # x = BatchNormalization()(x)
     # x = Activation('relu')(x)
-    # x = MaxPooling1D(pool_size=2, strides=2)(x)
+    # # x = MaxPooling1D(pool_size=2, strides=2)(x)
     # # x = Dropout(config.drop_rate)(x)
     # x = Conv1D(filters=filter_length,
     #            kernel_size=kernel_size,
@@ -201,16 +214,19 @@ def build_network(**params):
     # # Final bit
     # # x = BatchNormalization()(x)
     # # x = Activation('relu')(x)
-    # x = Flatten()(x)
+    # # x = Flatten()(x)
     # # x = Dropout(config.drop_rate)(x)
     #
-    # x = Dense(64, activation='relu')(x)
-    # x = Dropout(0.5)(x)
+    # # x = Dense(64, activation='relu')(x)
+    # # x = Dropout(0.5)(x)
     #
-    # x = Dense(64, activation='relu')(x)
-    # x = Dropout(0.5)(x)
+    # # x = Dense(64, activation='relu')(x)
+    # # x = Dropout(0.5)(x)
     #
-    # out = Dense(4, activation='softmax')(x)
+    # # out = TimeDistributed(Dense(4, activation='softmax')(x))
+    #
+    # layer = TimeDistributed(Dense(params["num_categories"]))(x)
+    # out = Activation('softmax')(layer)
     # model = Model(inputs=inputs, outputs=out)
     # model.compile(optimizer='adam',
     #               loss='categorical_crossentropy',
