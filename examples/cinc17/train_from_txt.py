@@ -19,7 +19,7 @@ test_y = np.genfromtxt('../../{}/ytest'.format(data_dir), delimiter=',', dtype='
 
 print('Data Loading finished (row:{})'.format(len(train_x)))
 
-batch_size = 32
+batch_size = 64
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -248,7 +248,7 @@ class ML4CVD(nn.Module):
 model = NetMaxpool()
 # model = ML4CVD_shallow()
 from torchsummary import summary
-summary(model, input_size =(1, 512), batch_size=32)
+summary(model, input_size =(1, 512), batch_size=batch_size)
 
 
 class ECGDataset(Dataset):
@@ -271,8 +271,8 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
-# optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
+# optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
+optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()

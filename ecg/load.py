@@ -52,6 +52,7 @@ class Preproc:
 def pad(x, val=0, dtype=np.float32):
     max_len = max(len(i) for i in x)
     padded = np.full((len(x), max_len), val, dtype=dtype)
+    # e : counter, i: value
     for e, i in enumerate(x):
         padded[e, :len(i)] = i
     return padded
