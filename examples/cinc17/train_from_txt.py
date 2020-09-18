@@ -89,7 +89,7 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(1024, 64)
+        self.fc1 = nn.Linear(512, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
         self.dropout1 = nn.Dropout(0.5)
@@ -341,7 +341,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 50
+n_epochs = 100
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
