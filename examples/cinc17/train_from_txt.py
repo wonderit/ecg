@@ -271,7 +271,7 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9, nesterov=True)
+optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
 # optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
