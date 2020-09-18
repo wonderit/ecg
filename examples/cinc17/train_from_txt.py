@@ -65,9 +65,9 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 7
+        self.kernel_size = 16
         self.padding_size = 0
-        self.channel_size = 16
+        self.channel_size = 32
         self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
@@ -244,8 +244,8 @@ class ML4CVD(nn.Module):
 
         return y
 
-# model = NetMaxpool()
-model = ML4CVD_shallow()
+model = NetMaxpool()
+# model = ML4CVD_shallow()
 from torchsummary import summary
 summary(model, input_size =(1, 512), batch_size=32)
 
