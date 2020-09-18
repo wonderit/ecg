@@ -89,7 +89,7 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.nodes = 128
+        self.nodes = 64
         self.fc1 = nn.Linear(512, self.nodes)
         self.fc2 = nn.Linear(self.nodes, self.nodes)
         self.fc3 = nn.Linear(self.nodes, 4)
@@ -100,19 +100,19 @@ class NetMaxpool(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv1(x))  # 32
-        # x = F.relu(self.conv11(x))  # 32
+        x = F.relu(self.conv11(x))  # 32
         # x = self.dropout(x)
         x = self.maxpool1(x)  # 32
         x = F.relu(self.conv2(x))
-        # x = F.relu(self.conv22(x))
+        x = F.relu(self.conv22(x))
         # x = self.dropout(x)
         x = self.maxpool2(x)
         x = F.relu(self.conv3(x))
-        # x = F.relu(self.conv33(x))
+        x = F.relu(self.conv33(x))
         # x = self.dropout(x)
         x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
-        # x = F.relu(self.conv5(x))
+        x = F.relu(self.conv5(x))
         # x = self.dropout(x)
         x = self.maxpool4(x)
         x = x.view(x.shape[0], -1)
@@ -272,7 +272,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
-optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
