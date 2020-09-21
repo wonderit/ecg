@@ -18,7 +18,7 @@ train_y = np.genfromtxt('../../{}/ytrain'.format(data_dir), delimiter=',', dtype
 test_x = np.genfromtxt('../../{}/Xtest'.format(data_dir), delimiter=',', dtype='float')
 test_y = np.genfromtxt('../../{}/ytest'.format(data_dir), delimiter=',', dtype='float')
 
-print('Data Loading finished (row:{})'.format(len(train_x)))
+print('Data Loading finished (row:{}, shape:{})'.format(len(train_x), train_x.shape))
 
 batch_size = 32
 
