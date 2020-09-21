@@ -100,7 +100,7 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv42 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.nodes = 4096
+        self.nodes = 64
         self.fc1 = nn.Linear(4096, self.nodes)
         self.fc2 = nn.Linear(self.nodes, self.nodes)
         self.fc3 = nn.Linear(self.nodes, 4)
@@ -131,12 +131,12 @@ class NetMaxpool(nn.Module):
         # x = self.dropout(x)
         # x = self.maxpool4(x)
         x = x.view(x.shape[0], -1)
-        # x = self.fc1(x)
-        # x = self.dropout1(x)
-        # x = F.relu(x)
-        # x = self.fc2(x)
-        # x = self.dropout2(x)
-        # x = F.relu(x)
+        x = self.fc1(x)
+        x = self.dropout1(x)
+        x = F.relu(x)
+        x = self.fc2(x)
+        x = self.dropout2(x)
+        x = F.relu(x)
         x = self.fc3(x)
         return x
 
