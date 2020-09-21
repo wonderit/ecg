@@ -14,7 +14,7 @@ import load
 
 #%%
 # window size : 60
-model_path = "../../../saved/cinc17/1600723971-398/0.291-0.897-018-0.228-0.918.hdf5"
+# model_path = "../../../saved/cinc17/1600723971-398/0.291-0.897-018-0.228-0.918.hdf5"
 # window size : 50
 # model_path = "../../../saved/cinc17/1600723290-689/0.422-0.854-020-0.297-0.893.hdf5"
 # window size : 40
@@ -24,7 +24,7 @@ model_path = "../../../saved/cinc17/1600723971-398/0.291-0.897-018-0.228-0.918.h
 # window size : 20
 # model_path = "../../../saved/cinc17/1600721125-894/0.535-0.805-018-0.363-0.866.hdf5"
 # window size : 10
-# model_path = "../../../saved/cinc17/1600720547-201/0.571-0.789-021-0.454-0.830.hdf5"
+model_path = "../../../saved/cinc17/1600720547-201/0.571-0.789-021-0.454-0.830.hdf5"
 data_path = "../dev.json"
 
 data = load.load_dataset(data_path)
