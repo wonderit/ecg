@@ -20,7 +20,7 @@ test_y = np.genfromtxt('../../{}/ytest'.format(data_dir), delimiter=',', dtype='
 
 print('Data Loading finished (row:{}, shape:{})'.format(len(train_x), train_x.shape))
 
-batch_size = 32
+batch_size = 256
 
 
 class Net(nn.Module):
@@ -68,9 +68,9 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 7
+        self.kernel_size = 16
         self.padding_size = 0
-        self.channel_size = 16
+        self.channel_size = 32
         # self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         # self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         # self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
@@ -288,7 +288,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
-optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
@@ -399,7 +399,7 @@ model.eval()
 
 val_inputs = val_inputs.to(device)
 val_outputs = model(val_inputs)
-np_outputs = val_outputs.detach().numpy()
+np_outputs = val_outputs.to('cpu').detach().numpy()
 from scipy.special import softmax
 for output_array in np_outputs:
     ss = softmax(output_array)
