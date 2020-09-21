@@ -102,7 +102,7 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.nodes = 64
         self.fc1 = nn.Linear(4096, self.nodes)
-        # self.fc2 = nn.Linear(self.nodes, self.nodes)
+        self.fc2 = nn.Linear(self.nodes, self.nodes)
         self.fc3 = nn.Linear(self.nodes, 4)
         self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
@@ -134,13 +134,11 @@ class NetMaxpool(nn.Module):
         x = self.fc1(x)
         x = self.dropout1(x)
         x = F.relu(x)
-        # x = self.fc2(x)
-        # x = self.dropout2(x)
-        # x = F.relu(x)
-        x = self.fc3(x)
+        x = self.fc2(x)
+        x = self.dropout2(x)
         x = F.relu(x)
-        y = F.softmax(x)
-        return y
+        x = self.fc3(x)
+        return x
 
 
 class ML4CVD_shallow(nn.Module):
