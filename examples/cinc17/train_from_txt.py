@@ -101,9 +101,9 @@ class NetMaxpool(nn.Module):
         self.conv42 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.nodes = 64
-        self.fc1 = nn.Linear(512, self.nodes)
-        self.fc2 = nn.Linear(self.nodes, self.nodes)
-        self.fc3 = nn.Linear(4096, 4)
+        self.fc1 = nn.Linear(4096, self.nodes)
+        # self.fc2 = nn.Linear(self.nodes, self.nodes)
+        self.fc3 = nn.Linear(self.nodes, 4)
         self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
 
@@ -131,13 +131,15 @@ class NetMaxpool(nn.Module):
         # x = self.dropout(x)
         # x = self.maxpool4(x)
         x = x.view(x.shape[0], -1)
-        # x = self.fc1(x)
-        # x = self.dropout1(x)
-        # x = F.relu(x)
+        x = self.fc1(x)
+        x = self.dropout1(x)
+        x = F.relu(x)
         # x = self.fc2(x)
         # x = self.dropout2(x)
         # x = F.relu(x)
-        y = self.fc3(x)
+        x = self.fc3(x)
+        x = F.relu(x)
+        y = F.softmax(x)
         return y
 
 
@@ -288,7 +290,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
-optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
