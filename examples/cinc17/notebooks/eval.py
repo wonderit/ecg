@@ -13,10 +13,12 @@ import util
 import load
 
 #%%
+# window size : 71
+model_path = "../../../saved/cinc17/1600725047-904/0.279-0.899-020-0.210-0.923.hdf5"
 # window size : 60
 # model_path = "../../../saved/cinc17/1600723971-398/0.291-0.897-018-0.228-0.918.hdf5"
 # window size : 50
-model_path = "../../../saved/cinc17/1600723290-689/0.422-0.854-020-0.297-0.893.hdf5"
+# model_path = "../../../saved/cinc17/1600723290-689/0.422-0.854-020-0.297-0.893.hdf5"
 # window size : 40
 # model_path = "../../../saved/cinc17/1600722878-856/0.414-0.859-020-0.271-0.903.hdf5"
 # window size : 30
