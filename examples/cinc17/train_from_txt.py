@@ -319,6 +319,9 @@ def train(epoch):
         val_inputs = x_val.unsqueeze(1)
         val_labels = torch.argmax(y_val, dim=1)
 
+        val_inputs = val_inputs.to(device)
+        val_labels = val_labels.to(device)
+
         model.train()
         # forward + backward + optimize
         tr_outputs = model(tr_inputs)
