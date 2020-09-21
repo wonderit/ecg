@@ -41,6 +41,8 @@ class Preproc:
         x = pad(x)
         x = (x - self.mean) / self.std
         x = x[:, :, None]
+        # test for # of windows
+        x = x[:, :20 * 256, :]
         return x
 
     def process_y(self, y):
@@ -48,6 +50,8 @@ class Preproc:
         y = pad([[self.class_to_int[c] for c in s] for s in y], val=3, dtype=np.int32)
         y = tf.keras.utils.to_categorical(
                 y, num_classes=len(self.classes))
+        # test for # of windows
+        y = y[:, :20, :]
         return y
 
 def pad(x, val=0, dtype=np.float32):
@@ -68,8 +72,7 @@ def load_dataset(data_json):
         data = [json.loads(l) for l in fid]
     labels = []; ecgs = []
     for d in tqdm.tqdm(data):
-        # labels.append(d['labels'])
-        labels.append(d['labels'][:10])
+        labels.append(d['labels'])
         ecgs.append(load_ecg(d['ecg']))
     return ecgs, labels
 
@@ -82,8 +85,7 @@ def load_ecg(record):
         with open(record, 'r') as fid:
             ecg = np.fromfile(fid, dtype=np.int16)
 
-    # trunc_samp = STEP * int(len(ecg) / STEP)
-    trunc_samp = STEP * 10
+    trunc_samp = STEP * int(len(ecg) / STEP)
     return ecg[:trunc_samp]
 
 if __name__ == "__main__":
