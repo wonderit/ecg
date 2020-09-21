@@ -18,9 +18,9 @@ import load
 # window size : 50
 # model_path = "../../../saved/cinc17/1600723290-689/0.422-0.854-020-0.297-0.893.hdf5"
 # window size : 40
-# model_path = "../../../saved/cinc17/1600722878-856/0.414-0.859-020-0.271-0.903.hdf5"
+model_path = "../../../saved/cinc17/1600722878-856/0.414-0.859-020-0.271-0.903.hdf5"
 # window size : 30
-model_path = "../../../saved/cinc17/1600721655-973/0.528-0.824-020-0.280-0.899.hdf5"
+# model_path = "../../../saved/cinc17/1600721655-973/0.528-0.824-020-0.280-0.899.hdf5"
 # window size : 20
 # model_path = "../../../saved/cinc17/1600721125-894/0.535-0.805-018-0.363-0.866.hdf5"
 # window size : 10
