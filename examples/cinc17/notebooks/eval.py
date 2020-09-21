@@ -14,7 +14,7 @@ import load
 
 #%%
 
-model_path = "../../../saved/cinc17/1600700429-597/0.246-0.912-015-0.196-0.930.hdf5"
+model_path = "../../../saved/cinc17/1600700429-597/0.245-0.912-015-0.196-0.930.hdf5"
 data_path = "../dev.json"
 
 data = load.load_dataset(data_path)
