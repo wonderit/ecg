@@ -260,10 +260,12 @@ class ML4CVD(nn.Module):
         return y
 
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print('use cpu or gpu : ', device)
 model = NetMaxpool()
+model.to(device)
 # model = ML4CVD_shallow()
 summary(model, input_size =(1, 256), batch_size=batch_size)
-
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
@@ -286,7 +288,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
-optimizer = optim.Adam(model.parameters(), lr=1e-3, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-2, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
@@ -300,6 +302,7 @@ def train(epoch):
 
         # get the inputs
         tr_inputs, tr_labels = data
+        tr_inputs, tr_labels = tr_inputs.to(device), tr_labels.to(device)
 
         # zero the parameter gradients
         optimizer.zero_grad()
