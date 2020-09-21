@@ -15,6 +15,6 @@
     "dev": "examples/cinc17/dev.json",
 
     "generator": false,
-
+    "is_regular_conv": false,
     "save_dir": "saved"
 }

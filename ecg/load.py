@@ -42,7 +42,7 @@ class Preproc:
         x = (x - self.mean) / self.std
         x = x[:, :, None]
         # test for # of windows
-        # x = x[:, : * 256, :]
+        # x = x[:, :60 * 256, :]
         return x
 
     def process_y(self, y):

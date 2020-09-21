@@ -54,7 +54,11 @@ def train(args, params):
 
     model = network.build_network(**params)
     print(model.summary())
-    plot_model(model, to_file='model_original.png', show_shapes=True)
+    if params.get('is_regular_conv', False):
+        plot_model(model, to_file='model_regular_conv.png', show_shapes=True)
+    else:
+        plot_model(model, to_file='model_residual_conv.png', show_shapes=True)
+
 
     stopping = keras.callbacks.EarlyStopping(patience=8)
 

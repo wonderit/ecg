@@ -130,12 +130,12 @@ def build_network(**params):
                    dtype='float32',
                    name='inputs')
     # original
-    # if params.get('is_regular_conv', False):
-    #     layer = add_conv_layers(inputs, **params)
-    # else:
-    #     layer = add_resnet_layers(inputs, **params)
-
-    layer = add_conv_layers(inputs, **params)
+    if params.get('is_regular_conv', False):
+        layer = add_conv_layers(inputs, **params)
+    else:
+        layer = add_resnet_layers(inputs, **params)
+    #
+    # layer = add_conv_layers(inputs, **params)
 
     output = add_output_layer(layer, **params)
     model = Model(inputs=[inputs], outputs=[output])
