@@ -16,9 +16,9 @@ import load
 # window size : 71 - w/BN - Residual
 
 # window size : 71 - w/BN
-# model_path = "../../../saved/cinc17/1600729557-777/0.251-0.910-020-0.218-0.920.hdf5"
+model_path = "../../../saved/cinc17/1600729557-777/0.251-0.910-018-0.219-0.921.hdf5"
 # window size : 71 : showed poor performance -> trained twice
-model_path = "../../../saved/cinc17/1600731414-688/0.267-0.905-018-0.201-0.927.hdf5"
+# model_path = "../../../saved/cinc17/1600731414-688/0.267-0.905-018-0.201-0.927.hdf5"
 # model_path = "../../../saved/cinc17/1600725047-904/0.279-0.899-020-0.210-0.923.hdf5"
 # window size : 60
 # model_path = "../../../saved/cinc17/1600723971-398/0.291-0.897-018-0.228-0.918.hdf5"
