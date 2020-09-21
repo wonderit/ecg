@@ -68,7 +68,8 @@ def load_dataset(data_json):
         data = [json.loads(l) for l in fid]
     labels = []; ecgs = []
     for d in tqdm.tqdm(data):
-        labels.append(d['labels'])
+        # labels.append(d['labels'])
+        labels.append(d['labels'][:10])
         ecgs.append(load_ecg(d['ecg']))
     return ecgs, labels
 
@@ -81,7 +82,8 @@ def load_ecg(record):
         with open(record, 'r') as fid:
             ecg = np.fromfile(fid, dtype=np.int16)
 
-    trunc_samp = STEP * int(len(ecg) / STEP)
+    # trunc_samp = STEP * int(len(ecg) / STEP)
+    trunc_samp = STEP * 10
     return ecg[:trunc_samp]
 
 if __name__ == "__main__":
