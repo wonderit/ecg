@@ -20,9 +20,9 @@ import load
 # window size : 40
 # model_path = "../../../saved/cinc17/1600722878-856/0.414-0.859-020-0.271-0.903.hdf5"
 # window size : 30
-# model_path = "../../../saved/cinc17/1600721655-973/0.528-0.824-020-0.280-0.899.hdf5"
+model_path = "../../../saved/cinc17/1600721655-973/0.528-0.824-020-0.280-0.899.hdf5"
 # window size : 20
-model_path = "../../../saved/cinc17/1600721125-894/0.535-0.805-018-0.363-0.866.hdf5"
+# model_path = "../../../saved/cinc17/1600721125-894/0.535-0.805-018-0.363-0.866.hdf5"
 # window size : 10
 # model_path = "../../../saved/cinc17/1600720547-201/0.571-0.789-021-0.454-0.830.hdf5"
 data_path = "../dev.json"
