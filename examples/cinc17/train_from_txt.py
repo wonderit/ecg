@@ -131,12 +131,12 @@ class NetMaxpool(nn.Module):
         # x = self.dropout(x)
         # x = self.maxpool4(x)
         x = x.view(x.shape[0], -1)
-        x = self.fc1(x)
-        x = self.dropout1(x)
-        x = F.relu(x)
-        x = self.fc2(x)
-        x = self.dropout2(x)
-        x = F.relu(x)
+        # x = self.fc1(x)
+        # x = self.dropout1(x)
+        # x = F.relu(x)
+        # x = self.fc2(x)
+        # x = self.dropout2(x)
+        # x = F.relu(x)
         x = self.fc3(x)
         return x
 
