@@ -113,16 +113,16 @@ def train(args, params):
         # train_y = np.array(all_train_y)
 
         # get 8 windows
-        # train_x = train_x[:, :window_size * n_sample, :]
-        # train_y = train_y[:, r_i, :]
-        # test_x = test_x[:, :window_size * n_sample, :]
-        # test_y = test_y[:, r_i, :]
+        train_x = train_x[:, :window_size * n_sample, :]
+        train_y = train_y[:, r_i, :]
+        test_x = test_x[:, :window_size * n_sample, :]
+        test_y = test_y[:, r_i, :]
 
         # test_x = np.array(random_test_x)
         # train_x = np.array(train_x)
 
-        # train_x = np.squeeze(train_x, axis=(2,))
-        # test_x = np.squeeze(test_x, axis=(2,))
+        train_x = np.squeeze(train_x, axis=(2,))
+        test_x = np.squeeze(test_x, axis=(2,))
         #
         # print('train_x m, s: ', train_x.mean(), train_x.std())
         # print('train_x min, max: ', train_x.min(), train_x.max())
@@ -138,30 +138,30 @@ def train(args, params):
         # print('3:', len(gt[gt == 3]))
         # print('gt shape:', gt.shape)
 
-        # data_dir = 'processed_data'
-        #
-        # if not os.path.exists(data_dir):
-        #     os.makedirs(data_dir)
-        # train_file_suffix = 'train'
-        # test_file_suffix = 'test'
-        #
-        # file_name_train_x = 'X{}'.format(train_file_suffix)
-        # file_name_train_y = 'y{}'.format(train_file_suffix)
-        # file_name_test_x = 'X{}'.format(test_file_suffix)
-        # file_name_test_y = 'y{}'.format(test_file_suffix)
+        data_dir = 'processed_data'
 
-        # np.savetxt('{}/{}'.format(data_dir, file_name_train_x), train_x, delimiter=',', fmt='%1.8f')
-        # np.savetxt('{}/{}'.format(data_dir, file_name_train_y), train_y, delimiter=',', fmt='%1.8f')
-        # np.savetxt('{}/{}'.format(data_dir, file_name_test_x), test_x, delimiter=',', fmt='%1.8f')
-        # np.savetxt('{}/{}'.format(data_dir, file_name_test_y), test_y, delimiter=',', fmt='%1.8f')
-        # exit()
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir)
+        train_file_suffix = 'train'
+        test_file_suffix = 'test'
 
-        model.fit(
-            train_x, train_y,
-            batch_size=batch_size,
-            epochs=MAX_EPOCHS,
-            validation_data=(dev_x, dev_y),
-            callbacks=[checkpointer, reduce_lr, stopping])
+        file_name_train_x = 'X{}'.format(train_file_suffix)
+        file_name_train_y = 'y{}'.format(train_file_suffix)
+        file_name_test_x = 'X{}'.format(test_file_suffix)
+        file_name_test_y = 'y{}'.format(test_file_suffix)
+
+        np.savetxt('{}/{}'.format(data_dir, file_name_train_x), train_x, delimiter=',', fmt='%1.8f')
+        np.savetxt('{}/{}'.format(data_dir, file_name_train_y), train_y, delimiter=',', fmt='%1.8f')
+        np.savetxt('{}/{}'.format(data_dir, file_name_test_x), test_x, delimiter=',', fmt='%1.8f')
+        np.savetxt('{}/{}'.format(data_dir, file_name_test_y), test_y, delimiter=',', fmt='%1.8f')
+        exit()
+
+        # model.fit(
+        #     train_x, train_y,
+        #     batch_size=batch_size,
+        #     epochs=MAX_EPOCHS,
+        #     validation_data=(dev_x, dev_y),
+        #     callbacks=[checkpointer, reduce_lr, stopping])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
