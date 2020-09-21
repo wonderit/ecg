@@ -396,6 +396,8 @@ prior = [0.15448743, 0.66301941, 0.34596848, 0.09691286]
 probs = []
 probs_prior = []
 model.eval()
+
+val_inputs = val_inputs.to(device)
 val_outputs = model(val_inputs)
 np_outputs = val_outputs.detach().numpy()
 from scipy.special import softmax
