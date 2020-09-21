@@ -124,19 +124,19 @@ def train(args, params):
         train_x = np.squeeze(train_x, axis=(2,))
         test_x = np.squeeze(test_x, axis=(2,))
         #
-        # print('train_x m, s: ', train_x.mean(), train_x.std())
-        # print('train_x min, max: ', train_x.min(), train_x.max())
-        #
-        # print('train_x shape : ', train_x.shape)
-        # print('train_y shape : ', train_y.shape)
-        # print('test_x shape : ', test_x.shape)
-        # print('test_y shape : ', test_y.shape)
-        # gt = np.argmax(test_y, axis=1)
-        # print('0:', len(gt[gt == 0]))
-        # print('1:', len(gt[gt == 1]))
-        # print('2:', len(gt[gt == 2]))
-        # print('3:', len(gt[gt == 3]))
-        # print('gt shape:', gt.shape)
+        print('train_x m, s: ', train_x.mean(), train_x.std())
+        print('train_x min, max: ', train_x.min(), train_x.max())
+
+        print('train_x shape : ', train_x.shape)
+        print('train_y shape : ', train_y.shape)
+        print('test_x shape : ', test_x.shape)
+        print('test_y shape : ', test_y.shape)
+        gt = np.argmax(test_y, axis=1)
+        print('0:', len(gt[gt == 0]))
+        print('1:', len(gt[gt == 1]))
+        print('2:', len(gt[gt == 2]))
+        print('3:', len(gt[gt == 3]))
+        print('gt shape:', gt.shape)
 
         data_dir = 'processed_data'
 
