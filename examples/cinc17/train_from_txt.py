@@ -10,7 +10,7 @@ from torch.autograd import Variable
 import time
 
 torch.manual_seed(0)
-data_dir = 'minimum_data'
+data_dir = 'minimum_data_256'
 
 train_x = np.genfromtxt('../../{}/Xtrain'.format(data_dir), delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../{}/ytrain'.format(data_dir), delimiter=',', dtype='float')
@@ -71,10 +71,10 @@ class NetMaxpool(nn.Module):
         self.kernel_size = 7
         self.padding_size = 0
         self.channel_size = 16
-        self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
-        self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
-        self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
-        self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
+        # self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
+        # self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
+        # self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
+        # self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
         # self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
@@ -103,7 +103,7 @@ class NetMaxpool(nn.Module):
         self.nodes = 64
         self.fc1 = nn.Linear(512, self.nodes)
         self.fc2 = nn.Linear(self.nodes, self.nodes)
-        self.fc3 = nn.Linear(self.nodes, 4)
+        self.fc3 = nn.Linear(4096, 4)
         self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
 
@@ -112,31 +112,31 @@ class NetMaxpool(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1(x))  # 32
         x = F.relu(self.conv11(x))  # 32
-        # x = F.relu(self.conv12(x))  # 32
-        x = self.dropout(x)
-        x = self.maxpool1(x)  # 32
+        x = F.relu(self.conv12(x))  # 32
+        # x = self.dropout(x)
+        # x = self.maxpool1(x)  # 32
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv21(x))
-        # x = F.relu(self.conv22(x))
-        x = self.dropout(x)
-        x = self.maxpool2(x)
+        x = F.relu(self.conv22(x))
+        # x = self.dropout(x)
+        # x = self.maxpool2(x)
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv31(x))
-        # x = F.relu(self.conv32(x))
-        x = self.dropout(x)
-        x = self.maxpool3(x)
+        x = F.relu(self.conv32(x))
+        # x = self.dropout(x)
+        # x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         x = F.relu(self.conv41(x))
-        # x = F.relu(self.conv42(x))
-        x = self.dropout(x)
-        x = self.maxpool4(x)
+        x = F.relu(self.conv42(x))
+        # x = self.dropout(x)
+        # x = self.maxpool4(x)
         x = x.view(x.shape[0], -1)
-        x = self.fc1(x)
-        x = self.dropout1(x)
-        x = F.relu(x)
-        x = self.fc2(x)
-        x = self.dropout2(x)
-        x = F.relu(x)
+        # x = self.fc1(x)
+        # x = self.dropout1(x)
+        # x = F.relu(x)
+        # x = self.fc2(x)
+        # x = self.dropout2(x)
+        # x = F.relu(x)
         y = self.fc3(x)
         return y
 
@@ -262,7 +262,7 @@ class ML4CVD(nn.Module):
 
 model = NetMaxpool()
 # model = ML4CVD_shallow()
-summary(model, input_size =(1, 512), batch_size=batch_size)
+summary(model, input_size =(1, 256), batch_size=batch_size)
 
 
 class ECGDataset(Dataset):

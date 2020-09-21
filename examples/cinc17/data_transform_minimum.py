@@ -26,8 +26,10 @@ def compute_mean_std(x):
 
 # X_train = X_train.reshape([7676, 1, 256, 8]).mean(3).mean(1)
 # X_test = X_test.reshape([852, 1, 256, 8]).mean(3).mean(1)
-X_train = X_train.reshape([7676, 1, 512, 2560 // 512]).mean(3).mean(1)
-X_test = X_test.reshape([852, 1, 512, 2560 // 512]).mean(3).mean(1)
+# X_train = X_train.reshape([7676, 1, 512, 2560 // 512]).mean(3).mean(1)
+# X_test = X_test.reshape([852, 1, 512, 2560 // 512]).mean(3).mean(1)
+X_train = X_train.reshape([7676, 1, 256, 2560 // 256]).mean(3).mean(1)
+X_test = X_test.reshape([852, 1, 256, 2560 // 256]).mean(3).mean(1)
 
 order = int(0.3 * 100)
 filtered_train_x, _, _ = st.filter_signal(signal=X_train,
@@ -54,7 +56,7 @@ current_test_x = scale_maxabs(test_x_thres, np.max(np.abs(test_x_thres)), 30)
 # current_x = (filtered_train_x - mean) / std
 # current_test_x = (filtered_test_x - mean) / std
 import os
-data_dir = '../../minimum_data'
+data_dir = '../../minimum_data_256'
 
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)
