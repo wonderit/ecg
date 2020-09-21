@@ -20,7 +20,7 @@ test_y = np.genfromtxt('../../{}/ytest'.format(data_dir), delimiter=',', dtype='
 
 print('Data Loading finished (row:{}, shape:{})'.format(len(train_x), train_x.shape))
 
-batch_size = 256
+batch_size = 32
 
 
 class Net(nn.Module):
@@ -68,9 +68,9 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 16
+        self.kernel_size = 15
         self.padding_size = 0
-        self.channel_size = 32
+        self.channel_size = 16
         # self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         # self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         # self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
