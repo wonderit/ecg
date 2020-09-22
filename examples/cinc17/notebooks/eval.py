@@ -54,6 +54,8 @@ model_path = "../../../saved/cinc17/1600756367-348/0.727-0.753-018-0.443-0.837.h
 model_path = "../../../saved/cinc17/1600756668-322/0.593-0.806-018-0.312-0.889.hdf5"
 # ws : 30
 model_path = "../../../saved/cinc17/1600756966-153/0.465-0.836-018-0.335-0.881.hdf5"
+# ws : 40
+model_path = "../../../saved/cinc17/1600757298-81/0.346-0.883-018-0.186-0.934.hdf5"
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
