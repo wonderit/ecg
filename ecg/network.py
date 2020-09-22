@@ -5,7 +5,7 @@ from keras.layers.wrappers import TimeDistributed
 def _bn_relu(layer, dropout=0, **params):
     from keras.layers import BatchNormalization
     from keras.layers import Activation
-    layer = BatchNormalization()(layer)
+    # layer = BatchNormalization()(layer)
     layer = Activation(params["conv_activation"])(layer)
 
     if dropout > 0:
