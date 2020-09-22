@@ -52,6 +52,8 @@ data_path = "../dev.json"
 model_path = "../../../saved/cinc17/1600756367-348/0.727-0.753-018-0.443-0.837.hdf5"
 # ws : 20
 model_path = "../../../saved/cinc17/1600756668-322/0.593-0.806-018-0.312-0.889.hdf5"
+# ws : 30
+model_path = "../../../saved/cinc17/1600756966-153/0.465-0.836-018-0.335-0.881.hdf5"
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
