@@ -14,7 +14,7 @@ import load
 
 #%%
 # window size : 71 - w/BN - Residual
-model_path = "../../../saved/cinc17/1600732571-86/0.226-0.922-020-0.131-0.954.hdf5"
+# model_path = "../../../saved/cinc17/1600732571-86/0.226-0.922-020-0.131-0.954.hdf5"
 # window size : 71 - w/BN
 # model_path = "../../../saved/cinc17/1600729557-777/0.251-0.910-018-0.219-0.921.hdf5"
 # window size : 71 : showed poor performance -> trained twice
@@ -32,7 +32,11 @@ model_path = "../../../saved/cinc17/1600732571-86/0.226-0.922-020-0.131-0.954.hd
 # model_path = "../../../saved/cinc17/1600721125-894/0.535-0.805-018-0.363-0.866.hdf5"
 # window size : 10
 # model_path = "../../../saved/cinc17/1600720547-201/0.571-0.789-021-0.454-0.830.hdf5"
+
+# W/BN start
 data_path = "../dev.json"
+# ws : 60
+model_path = "../../../saved/cinc17/1600748105-72/0.284-0.900-018-0.224-0.920.hdf5"
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
