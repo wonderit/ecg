@@ -36,17 +36,19 @@ import load
 # W/BN start
 data_path = "../dev.json"
 # ws : 60
-model_path = "../../../saved/cinc17/1600748105-72/0.284-0.900-018-0.224-0.920.hdf5"
-# ws : 50
-model_path = "../../../saved/cinc17/1600749241-120/0.327-0.884-018-0.264-0.904.hdf5"
-# ws : 40
-model_path = "../../../saved/cinc17/1600752602-261/0.389-0.866-018-0.265-0.906.hdf5"
-# ws : 30
-model_path = "../../../saved/cinc17/1600755293-457/0.440-0.838-018-0.370-0.867.hdf5"
-# ws : 20
-model_path = "../../../saved/cinc17/1600755766-211/0.481-0.823-015-0.415-0.850.hdf5"
-# ws : 10
-model_path = "../../../saved/cinc17/1600756084-472/0.592-0.786-018-0.480-0.816.hdf5"
+# model_path = "../../../saved/cinc17/1600748105-72/0.284-0.900-018-0.224-0.920.hdf5"
+# # ws : 50
+# model_path = "../../../saved/cinc17/1600749241-120/0.327-0.884-018-0.264-0.904.hdf5"
+# # ws : 40
+# model_path = "../../../saved/cinc17/1600752602-261/0.389-0.866-018-0.265-0.906.hdf5"
+# # ws : 30
+# model_path = "../../../saved/cinc17/1600755293-457/0.440-0.838-018-0.370-0.867.hdf5"
+# # ws : 20
+# model_path = "../../../saved/cinc17/1600755766-211/0.481-0.823-015-0.415-0.850.hdf5"
+# # ws : 10
+# model_path = "../../../saved/cinc17/1600756084-472/0.592-0.786-018-0.480-0.816.hdf5"
+# w/o batch norm start
+model_path = "../../../saved/cinc17/1600756367-348/0.727-0.753-018-0.443-0.837.hdf5"
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
