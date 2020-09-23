@@ -5,7 +5,7 @@ from keras.layers.wrappers import TimeDistributed
 def _bn_relu(layer, dropout=0, **params):
     from keras.layers import BatchNormalization
     from keras.layers import Activation
-    layer = BatchNormalization()(layer)
+    # layer = BatchNormalization()(layer)
     layer = Activation(params["conv_activation"])(layer)
 
     if dropout > 0:
@@ -38,7 +38,9 @@ def add_conv_layers(layer, **params):
                     params["conv_num_filters_start"],
                     subsample_length=subsample_length,
                     **params)
-        layer = _bn_relu(layer, **params)
+        layer = _bn_relu(layer,
+                         dropout=params["conv_dropout"],
+                         **params)
     return layer
 
 def resnet_block(
