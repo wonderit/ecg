@@ -85,6 +85,9 @@ model_path = "../../../saved/cinc17/1600874444-895/0.403-0.854-020-0.369-0.866.h
 # regular w/o bn, w/ dropout 0.2, ws : 60
 model_path = "../../../saved/cinc17/1600876556-803/0.308-0.890-020-0.281-0.897.hdf5"
 
+# regular w bn, w dropout 0.2 ws : 71
+model_path = "../../../saved/cinc17/1600887040-261/0.260-0.908-017-0.247-0.912.hdf5"
+
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
 model = keras.models.load_model(model_path)
