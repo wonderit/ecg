@@ -42,7 +42,7 @@ class Preproc:
         x = (x - self.mean) / self.std
         x = x[:, :, None]
         # test for # of windows
-        x = x[:, :60 * 256, :]
+        x = x[:, :50 * 256, :]
         return x
 
     def process_y(self, y):
@@ -51,7 +51,7 @@ class Preproc:
         y = tf.keras.utils.to_categorical(
                 y, num_classes=len(self.classes))
         # test for # of windows
-        y = y[:, :60, :]
+        y = y[:, :50, :]
         return y
 
 def pad(x, val=0, dtype=np.float32):
