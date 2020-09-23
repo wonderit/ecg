@@ -100,6 +100,9 @@ model_path = "../../../saved/cinc17/1600896351-369/0.511-0.819-020-0.499-0.815.h
 # 10
 model_path = "../../../saved/cinc17/1600898469-66/0.693-0.725-030-0.648-0.738.hdf5"
 
+# w/o bn, dropout resnet
+model_path = "../../../saved/cinc17/1600900783-696/8.907-0.447-009-8.551-0.469.hdf5"
+
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
 model = keras.models.load_model(model_path)
