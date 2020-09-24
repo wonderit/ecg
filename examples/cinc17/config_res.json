@@ -8,13 +8,13 @@
     "conv_num_skip": 2,
     "conv_increase_channels_at": 4,
 
-    "learning_rate": 0.001,
+    "learning_rate": 0.0001,
     "batch_size": 64,
 
     "train": "examples/cinc17/train.json",
     "dev": "examples/cinc17/dev.json",
 
     "generator": false,
-    "is_regular_conv": true,
+    "is_regular_conv": false,
     "save_dir": "saved"
 }
