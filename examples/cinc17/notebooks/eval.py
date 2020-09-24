@@ -120,6 +120,7 @@ model_path = "../../../saved/cinc17/1600978549-367/0.359-0.876-020-0.246-0.912.h
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
+print('preproc window size : ', preproc.window_size)
 model = keras.models.load_model(model_path)
 
 #%%
