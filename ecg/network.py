@@ -10,7 +10,7 @@ def _bn_relu(layer, dropout=0, **params):
 
     if dropout > 0:
         from keras.layers import Dropout
-        layer = Dropout(params["conv_dropout"])(layer)
+        # layer = Dropout(params["conv_dropout"])(layer)
 
     return layer
 
