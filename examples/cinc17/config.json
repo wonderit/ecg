@@ -1,5 +1,5 @@
 {
-    "conv_subsample_lengths": [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
+    "conv_subsample_lengths": [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
     "conv_filter_length": 16,
     "conv_num_filters_start": 32,
     "conv_init": "he_normal",
@@ -15,6 +15,6 @@
     "dev": "examples/cinc17/dev.json",
 
     "generator": false,
-    "is_regular_conv": false,
+    "is_regular_conv": true,
     "save_dir": "saved"
 }
