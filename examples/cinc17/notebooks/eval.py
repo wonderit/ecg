@@ -116,7 +116,10 @@ model_path = "../../../saved/cinc17/1600977811-169/0.488-0.832-020-0.289-0.897.h
 model_path = "../../../saved/cinc17/1600978066-910/0.437-0.854-020-0.244-0.916.hdf5"
 # of layer : 16 -> 32 ws : 50 12 s
 model_path = "../../../saved/cinc17/1600978549-367/0.359-0.876-020-0.246-0.912.hdf5"
-# of layer : 16 -> 32 ws : 60
+# of layer : 16 -> 32 ws : 60 15 s
+model_path = "../../../saved/cinc17/1600979318-106/0.302-0.900-020-0.211-0.925.hdf5"
+# of layer : 16 -> 32 ws : 71 17 s
+model_path = "../../../saved/cinc17/1600979659-741/0.279-0.909-025-0.170-0.939.hdf5"
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
