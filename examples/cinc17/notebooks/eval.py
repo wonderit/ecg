@@ -106,6 +106,18 @@ model_path = "../../../saved/cinc17/1600969139-916/0.555-0.794-020-0.427-0.840.h
 # w/ dropout, no bn resnet ws : 10
 model_path = "../../../saved/cinc17/1600969139-916/0.555-0.794-020-0.427-0.840.hdf5"
 
+# of layer : 16 -> 32 ws : 10 1600977494-766 4s
+model_path = "../../../saved/cinc17/1600977494-766/0.707-0.757-018-0.413-0.846.hdf5"
+# of layer : 16 -> 32 ws : 20 6s
+model_path = "../../../saved/cinc17/1600977675-274/0.595-0.796-018-0.385-0.860.hdf5"
+# of layer : 16 -> 32 ws : 30 8s
+model_path = "../../../saved/cinc17/1600977811-169/0.488-0.832-020-0.289-0.897.hdf5"
+# of layer : 16 -> 32 ws : 40 10s
+model_path = "../../../saved/cinc17/1600978066-910/0.437-0.854-020-0.244-0.916.hdf5"
+# of layer : 16 -> 32 ws : 50 12 s
+model_path = "../../../saved/cinc17/1600978549-367/0.359-0.876-020-0.246-0.912.hdf5"
+# of layer : 16 -> 32 ws : 60
+
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
 model = keras.models.load_model(model_path)
