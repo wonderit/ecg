@@ -33,6 +33,11 @@ class Preproc:
         self.classes = sorted(set(l for label in labels for l in label))
         self.int_to_class = dict( zip(range(len(self.classes)), self.classes))
         self.class_to_int = {c : i for i, c in self.int_to_class.items()}
+        self.window_size = 0
+
+    def set_window_size(self, size):
+        if size > 0:
+            self.window_size = size
 
     def process(self, x, y):
         return self.process_x(x), self.process_y(y)
@@ -42,7 +47,8 @@ class Preproc:
         x = (x - self.mean) / self.std
         x = x[:, :, None]
         # test for # of windows
-        x = x[:, :10 * 256, :]
+        if self.window_size > 0:
+            x = x[:, :self.window_size * 256, :]
         return x
 
     def process_y(self, y):
@@ -51,7 +57,9 @@ class Preproc:
         y = tf.keras.utils.to_categorical(
                 y, num_classes=len(self.classes))
         # test for # of windows
-        y = y[:, :10, :]
+        if self.window_size > 0:
+            y = y[:, :self.window_size, :]
+
         return y
 
 def pad(x, val=0, dtype=np.float32):

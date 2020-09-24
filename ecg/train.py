@@ -41,6 +41,7 @@ def train(args, params):
     print("Training size: " + str(len(train[0])) + " examples.")
     print("Dev size: " + str(len(dev[0])) + " examples.")
 
+    preproc.set_window_size(params['window_size'])
 
     save_dir = make_save_dir(params['save_dir'], args.experiment)
 
