@@ -121,6 +121,9 @@ model_path = "../../../saved/cinc17/1600979318-106/0.302-0.900-020-0.211-0.925.h
 # of layer : 16 -> 32 ws : 71 18 s
 model_path = "../../../saved/cinc17/1600979659-741/0.279-0.909-025-0.170-0.939.hdf5"
 
+# resnet bn, drop0 ws : 40 73 s
+model_path = "../../../saved_res_nobn/cinc17/1607990251-512/0.324-0.885-020-0.193-0.932.hdf5"
+
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
 print('preproc window size : ', preproc.window_size)

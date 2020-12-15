@@ -82,6 +82,8 @@ def resnet_block(
             num_filters,
             subsample_length if i == 0 else 1,
             **params)
+        # Add learnable Scalar
+
     layer = Add()([shortcut, layer])
     return layer
 
