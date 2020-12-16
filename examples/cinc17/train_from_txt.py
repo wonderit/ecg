@@ -420,7 +420,7 @@ scores = skm.precision_recall_fscore_support(
                     preds,
                     average=None)
 print(report)
-
+print("CINC Average {:3f}".format(np.mean(scores[2][:3])))
 
 report = skm.classification_report(
             ground_truth, preds_prior,
@@ -428,3 +428,4 @@ report = skm.classification_report(
             digits=3)
 print('report w/ prior')
 print(report)
+print("CINC Average {:3f}".format(np.mean(scores[2][:3])))
