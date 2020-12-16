@@ -69,9 +69,9 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 7
+        self.kernel_size = 15
         self.padding_size = 0
-        self.channel_size = 16
+        self.channel_size = 32
         self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
@@ -102,7 +102,7 @@ class NetMaxpool(nn.Module):
         self.conv42 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.nodes = 64
-        self.fc1 = nn.Linear(512, self.nodes)
+        self.fc1 = nn.Linear(1024, self.nodes)
         self.fc2 = nn.Linear(self.nodes, self.nodes)
         self.fc3 = nn.Linear(self.nodes, 4)
         self.dropout1 = nn.Dropout(0.5)
