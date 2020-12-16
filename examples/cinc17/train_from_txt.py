@@ -11,7 +11,8 @@ import time
 
 torch.manual_seed(0)
 # data_dir = 'minimum_data'
-data_dir = 'processed_data_5120'
+# data_dir = 'processed_data_5120'
+data_dir = 'minimum_data_512'
 
 train_x = np.genfromtxt('../../{}/Xtrain'.format(data_dir), delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../{}/ytrain'.format(data_dir), delimiter=',', dtype='float')
@@ -101,7 +102,7 @@ class NetMaxpool(nn.Module):
         self.conv42 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.nodes = 64
-        self.fc1 = nn.Linear(4096, self.nodes)
+        self.fc1 = nn.Linear(512, self.nodes)
         self.fc2 = nn.Linear(self.nodes, self.nodes)
         self.fc3 = nn.Linear(self.nodes, 4)
         self.dropout1 = nn.Dropout(0.5)
@@ -263,11 +264,11 @@ class ML4CVD(nn.Module):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('use cpu or gpu : ', device)
-# model = NetMaxpool()
+model = NetMaxpool()
 # model = ML4CVD_shallow()
-model = ML4CVD()
+# model = ML4CVD()
 model.to(device)
-summary(model, input_size =(1, 5120), batch_size=batch_size)
+summary(model, input_size =(1, 512), batch_size=batch_size)
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
