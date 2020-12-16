@@ -10,7 +10,7 @@ from torch.autograd import Variable
 import time
 
 torch.manual_seed(0)
-data_dir = 'minimum_data_256'
+data_dir = 'processed_data'
 
 train_x = np.genfromtxt('../../{}/Xtrain'.format(data_dir), delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../{}/ytrain'.format(data_dir), delimiter=',', dtype='float')
@@ -158,7 +158,7 @@ class ML4CVD_shallow(nn.Module):
         self.conv9 = nn.Conv1d(32, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
         self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
-        self.fc1 = nn.Linear(1536, 64)
+        self.fc1 = nn.Linear(15360, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
         # self.fc1 = nn.Linear(5620, 1)
@@ -266,7 +266,7 @@ print('use cpu or gpu : ', device)
 model = ML4CVD_shallow()
 model.to(device)
 # model = ML4CVD_shallow()
-summary(model, input_size =(1, 256), batch_size=batch_size)
+summary(model, input_size =(1, 2560), batch_size=batch_size)
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
