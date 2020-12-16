@@ -70,11 +70,11 @@ class NetMaxpool(nn.Module):
         self.kernel_size = 7
         self.padding_size = 0
         self.channel_size = 16
-        # self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
-        # self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
-        # self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
-        # self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
-        # self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool4 = nn.MaxPool1d(kernel_size=2, stride=2)
+        self.maxpool5 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.conv1 = nn.Conv1d(1, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.conv11 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
@@ -111,24 +111,24 @@ class NetMaxpool(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1(x))  # 32
         x = F.relu(self.conv11(x))  # 32
-        x = F.relu(self.conv12(x))  # 32
-        # x = self.dropout(x)
-        # x = self.maxpool1(x)  # 32
+        # x = F.relu(self.conv12(x))  # 32
+        x = self.dropout(x)
+        x = self.maxpool1(x)  # 32
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv21(x))
-        x = F.relu(self.conv22(x))
-        # x = self.dropout(x)
-        # x = self.maxpool2(x)
+        # x = F.relu(self.conv22(x))
+        x = self.dropout(x)
+        x = self.maxpool2(x)
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv31(x))
-        x = F.relu(self.conv32(x))
-        # x = self.dropout(x)
-        # x = self.maxpool3(x)
+        # x = F.relu(self.conv32(x))
+        x = self.dropout(x)
+        x = self.maxpool3(x)
         x = F.relu(self.conv4(x))
         x = F.relu(self.conv41(x))
-        x = F.relu(self.conv42(x))
-        # x = self.dropout(x)
-        # x = self.maxpool4(x)
+        # x = F.relu(self.conv42(x))
+        x = self.dropout(x)
+        x = self.maxpool4(x)
         x = x.view(x.shape[0], -1)
         x = self.fc1(x)
         x = self.dropout1(x)
@@ -289,7 +289,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
-optimizer = optim.Adam(model.parameters(), lr=0.01, eps=1e-7)
+optimizer = optim.Adam(model.parameters(), lr=1e-4, eps=1e-7)
 
 val_x = torch.from_numpy(test_x).float()
 val_y = torch.from_numpy(test_y).float()
