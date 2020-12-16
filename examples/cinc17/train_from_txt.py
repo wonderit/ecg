@@ -158,7 +158,7 @@ class ML4CVD_shallow(nn.Module):
         self.conv9 = nn.Conv1d(32, 16, kernel_size=self.kernel_size, padding=(self.kernel_size // 2))
         self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
-        self.fc1 = nn.Linear(3072, 64)
+        self.fc1 = nn.Linear(1536, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
         # self.fc1 = nn.Linear(5620, 1)
@@ -262,7 +262,8 @@ class ML4CVD(nn.Module):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('use cpu or gpu : ', device)
-model = NetMaxpool()
+# model = NetMaxpool()
+model = ML4CVD_shallow()
 model.to(device)
 # model = ML4CVD_shallow()
 summary(model, input_size =(1, 256), batch_size=batch_size)
