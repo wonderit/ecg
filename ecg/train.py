@@ -28,7 +28,7 @@ def make_save_dir(dirname, experiment_name):
 
 def get_filename_for_saving(save_dir):
     return os.path.join(save_dir,
-            "{val_loss:.3f}-{val_accuracy:.3f}-{epoch:03d}-{loss:.3f}-{accuracy:.3f}.hdf5")
+            "{val_loss:.3f}-{val_accuracy:.3f}-{epoch:03d}-{loss:.3f}-{accuracy:.3f}.h5py")
 
 def train(args, params):
 
