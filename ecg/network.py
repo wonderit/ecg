@@ -50,7 +50,7 @@ def resnet_block(
         subsample_length,
         block_index,
         **params):
-    from keras.layers import Add, Multiply
+    from keras.layers import Add
     from keras.layers import MaxPooling1D
     from keras.layers.core import Lambda
 
@@ -84,16 +84,10 @@ def resnet_block(
             **params)
 
     # Add learnable Scalar
-
-    # input_scalar = Input(shape=(1, 1, 1))
-    # res_multiplier = K.variable(np.zeros((1, 1, 1)), dtype='float32', name='skipinit')
-    res_multiplier = K.variable(0.0, dtype='float32', name='skipinit')
-    res_multiplier._trainable = True
-    layer = Lambda(lambda x: x * res_multiplier)(layer)
-    # layer = res_multiplier * layer
-    # layer = Multiply()()
-    # sca = te
-    # layer = Lambda(mul_sca)([res_multiplier, layer])
+    if not params["conv_batch_norm"]:
+        res_multiplier = K.variable(0.0, dtype='float32', name='skipinit')
+        res_multiplier._trainable = True
+        layer = Lambda(lambda x: x * res_multiplier)(layer)
 
     layer = Add()([shortcut, layer])
     return layer

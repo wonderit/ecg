@@ -28,7 +28,7 @@ def make_save_dir(dirname, experiment_name):
 
 def get_filename_for_saving(save_dir):
     return os.path.join(save_dir,
-            "{val_loss:.3f}-{val_accuracy:.3f}-{epoch:03d}-{loss:.3f}-{accuracy:.3f}.h5py")
+            "{val_loss:.3f}-{val_accuracy:.3f}-{epoch:03d}-{loss:.3f}-{accuracy:.3f}.hdf5")
 
 def train(args, params):
 
@@ -59,7 +59,10 @@ def train(args, params):
     if params.get('is_regular_conv', False):
         plot_model(model, to_file='model_regular_conv.png', show_shapes=True)
     else:
-        plot_model(model, to_file='model_residual_conv.png', show_shapes=True)
+        if params.get('conv_batch_norm'):
+            plot_model(model, to_file='model_residual_conv_bn.png', show_shapes=True)
+        else:
+            plot_model(model, to_file='model_residual_conv_nobn.png', show_shapes=True)
 
     stopping = keras.callbacks.EarlyStopping(patience=8)
 

@@ -1,0 +1,1 @@
+nohup ./train_cinc_res_bn.sh > cinc_res_bn.log &
