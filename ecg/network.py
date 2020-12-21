@@ -89,7 +89,6 @@ def resnet_block(
     # res_multiplier = K.variable(np.zeros((1, 1, 1)), dtype='float32', name='skipinit')
     res_multiplier = K.variable(0.0, dtype='float32', name='skipinit')
     res_multiplier._trainable = True
-    print('res_multiplier', K.eval(res_multiplier))
     layer = Lambda(lambda x: x * res_multiplier)(layer)
     # layer = res_multiplier * layer
     # layer = Multiply()()
