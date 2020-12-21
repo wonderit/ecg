@@ -61,7 +61,6 @@ def train(args, params):
     else:
         plot_model(model, to_file='model_residual_conv.png', show_shapes=True)
 
-
     stopping = keras.callbacks.EarlyStopping(patience=8)
 
     reduce_lr = keras.callbacks.ReduceLROnPlateau(
@@ -98,14 +97,18 @@ def train(args, params):
         train_x, train_y = preproc.process(*train)
         dev_x, dev_y = preproc.process(*dev)
 
-        train_x = np.array(train_x)
-        train_y = np.array(train_y)
-        test_x = np.array(dev_x)
-        test_y = np.array(dev_y)
+        print('train_x original shape : ', train_x.shape)
+        print('train_y original shape : ', train_y.shape)
+        print('test_x original shape : ', dev_x.shape)
+        print('test_y original shape : ', dev_y.shape)
 
+        # train_x = np.array(train_x)
+        # train_y = np.array(train_y)
+        # test_x = np.array(dev_x)
+        # test_y = np.array(dev_y)
 
         window_size = 256
-        n_sample = 20
+        n_sample = 40
 
         r_i = 0
         r_length = 1
@@ -120,53 +123,52 @@ def train(args, params):
 
         # FOR PLAINTEXT conversion start
         # get 8 windows
-        train_x = train_x[:, :window_size * n_sample, :]
-        train_y = train_y[:, r_i, :]
-        test_x = test_x[:, :window_size * n_sample, :]
-        test_y = test_y[:, r_i, :]
+        # train_x = train_x[:, :window_size * n_sample, :]
+        # train_y = train_y[:, r_i, :]
+        # test_x = test_x[:, :window_size * n_sample, :]
+        # test_y = test_y[:, r_i, :]
 
         # test_x = np.array(random_test_x)
         # train_x = np.array(train_x)
-
-        train_x = np.squeeze(train_x, axis=(2,))
-        test_x = np.squeeze(test_x, axis=(2,))
         #
-        print('train_x m, s: ', train_x.mean(), train_x.std())
-        print('train_x min, max: ', train_x.min(), train_x.max())
-
-        print('train_x shape : ', train_x.shape)
-        print('train_y shape : ', train_y.shape)
-        print('test_x shape : ', test_x.shape)
-        print('test_y shape : ', test_y.shape)
-        gt = np.argmax(test_y, axis=1)
-        print('0:', len(gt[gt == 0]))
-        print('1:', len(gt[gt == 1]))
-        print('2:', len(gt[gt == 2]))
-        print('3:', len(gt[gt == 3]))
-        print('gt shape:', gt.shape)
+        # train_x = np.squeeze(train_x, axis=(2,))
+        # test_x = np.squeeze(test_x, axis=(2,))
+        #
+        # print('train_x m, s: ', train_x.mean(), train_x.std())
+        # print('train_x min, max: ', train_x.min(), train_x.max())
+        #
+        # print('train_x shape : ', train_x.shape)
+        # print('train_y shape : ', train_y.shape)
+        # print('test_x shape : ', test_x.shape)
+        # print('test_y shape : ', test_y.shape)
+        # gt = np.argmax(test_y, axis=1)
+        # print('0:', len(gt[gt == 0]))
+        # print('1:', len(gt[gt == 1]))
+        # print('2:', len(gt[gt == 2]))
+        # print('3:', len(gt[gt == 3]))
+        # print('gt shape:', gt.shape)
 
         # data_dir = 'processed_data_2560'
-        data_dir = 'processed_data_5120'
-
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir)
-        train_file_suffix = 'train'
-        test_file_suffix = 'test'
-
-        file_name_train_x = 'X{}'.format(train_file_suffix)
-        file_name_train_y = 'y{}'.format(train_file_suffix)
-        file_name_test_x = 'X{}'.format(test_file_suffix)
-        file_name_test_y = 'y{}'.format(test_file_suffix)
-
-        np.savetxt('{}/{}'.format(data_dir, file_name_train_x), train_x, delimiter=',', fmt='%1.8f')
-        np.savetxt('{}/{}'.format(data_dir, file_name_train_y), train_y, delimiter=',', fmt='%1.8f')
-        np.savetxt('{}/{}'.format(data_dir, file_name_test_x), test_x, delimiter=',', fmt='%1.8f')
-        np.savetxt('{}/{}'.format(data_dir, file_name_test_y), test_y, delimiter=',', fmt='%1.8f')
-        print('train_x shape : ', train_x.shape)
-        print('train_y shape : ', train_y.shape)
-        print('test_x shape : ', test_x.shape)
-        print('test_y shape : ', test_y.shape)
-        exit()
+        # data_dir = 'processed_data_5120'
+        #
+        # if not os.path.exists(data_dir):
+        #     os.makedirs(data_dir)
+        # train_file_suffix = 'train'
+        # test_file_suffix = 'test'
+        #
+        # file_name_train_x = 'X{}'.format(train_file_suffix)
+        # file_name_train_y = 'y{}'.format(train_file_suffix)
+        # file_name_test_x = 'X{}'.format(test_file_suffix)
+        # file_name_test_y = 'y{}'.format(test_file_suffix)
+        #
+        # np.savetxt('{}/{}'.format(data_dir, file_name_train_x), train_x, delimiter=',', fmt='%1.8f')
+        # np.savetxt('{}/{}'.format(data_dir, file_name_train_y), train_y, delimiter=',', fmt='%1.8f')
+        # np.savetxt('{}/{}'.format(data_dir, file_name_test_x), test_x, delimiter=',', fmt='%1.8f')
+        # np.savetxt('{}/{}'.format(data_dir, file_name_test_y), test_y, delimiter=',', fmt='%1.8f')
+        # print('train_x shape : ', train_x.shape)
+        # print('train_y shape : ', train_y.shape)
+        # print('test_x shape : ', test_x.shape)
+        # print('test_y shape : ', test_y.shape)
 
         model.fit(
             train_x, train_y,
