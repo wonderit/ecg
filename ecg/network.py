@@ -50,7 +50,7 @@ def resnet_block(
         subsample_length,
         block_index,
         **params):
-    from keras.layers import Add
+    from keras.layers import Add, Multiply
     from keras.layers import MaxPooling1D
     from keras.layers.core import Lambda
 
