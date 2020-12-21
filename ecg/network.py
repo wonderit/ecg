@@ -90,6 +90,10 @@ def resnet_block(
         layer = Lambda(lambda x: x * res_multiplier)(layer)
 
     layer = Add()([shortcut, layer])
+
+    # add relu for skipinit
+    layer = Activation(params["conv_activation"])(layer)
+
     return layer
 
 def get_num_filters_at_index(index, num_start_filters, **params):

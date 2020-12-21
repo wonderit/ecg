@@ -9,7 +9,7 @@
     "conv_increase_channels_at": 4,
     "conv_batch_norm": false,
     "window_size" : 40,
-    "learning_rate": 0.001,
+    "learning_rate": 0.01,
     "batch_size": 32,
 
     "train": "examples/cinc17/train.json",
