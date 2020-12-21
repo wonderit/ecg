@@ -16,10 +16,6 @@ import util
 
 from keras.utils import plot_model
 
-import tensorflow as tf
-
-tf.enable_eager_execution()
-
 MAX_EPOCHS = 100
 # os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
