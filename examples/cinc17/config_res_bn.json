@@ -9,8 +9,11 @@
     "conv_increase_channels_at": 4,
     "conv_batch_norm": true,
     "window_size" : 40,
+    "optimizer": "adam",
     "learning_rate": 0.01,
-    "batch_size": 32,
+    "batch_size": 64,
+    "conv_l2": 0.0,
+    "skip_init_a": 0.0,
 
     "train": "examples/cinc17/train.json",
     "dev": "examples/cinc17/dev.json",
