@@ -21,13 +21,16 @@ def add_conv_weight(
         num_filters,
         subsample_length=1,
         **params):
-    from keras.layers import Conv1D 
+    from keras.layers import Conv1D
+    from keras.regularizers import l2
     layer = Conv1D(
         filters=num_filters,
         kernel_size=filter_length,
         strides=subsample_length,
         padding='same',
-        kernel_initializer=params["conv_init"])(layer)
+        kernel_initializer=params["conv_init"],
+        kernel_regularizer=l2(params["conv_l2"])
+    )(layer)
     return layer
 
 
@@ -86,16 +89,15 @@ def resnet_block(
 
     # Add learnable Scalar
     if not params["conv_batch_norm"]:
-        res_multiplier = tf.Variable(0.0, dtype=tf.float32)
-        # res_multiplier = K.variable(0.0, dtype='float32', name='skipinit')
-        # res_multiplier._trainable = True
+        # res_multiplier = tf.Variable(0.0, dtype=tf.float32)
+        res_multiplier = K.variable(0.0, dtype='float32', name='skipinit')
+        res_multiplier._trainable = True
         layer = Lambda(lambda x: x * res_multiplier)(layer)
 
     layer = Add()([shortcut, layer])
 
     # add relu for skipinit
     # layer = Activation(params["conv_activation"])(layer)
-
     return layer
 
 def get_num_filters_at_index(index, num_start_filters, **params):

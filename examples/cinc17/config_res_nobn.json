@@ -11,6 +11,7 @@
     "window_size" : 40,
     "learning_rate": 0.01,
     "batch_size": 32,
+    "conv_l2": 0.0005,
 
     "train": "examples/cinc17/train.json",
     "dev": "examples/cinc17/dev.json",
