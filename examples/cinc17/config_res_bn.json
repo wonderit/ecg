@@ -10,9 +10,9 @@
     "conv_batch_norm": true,
     "window_size" : 40,
     "optimizer": "adam",
-    "learning_rate": 0.01,
+    "learning_rate": 0.001,
     "batch_size": 64,
-    "conv_l2": 0.0,
+    "conv_l2": 0.001,
     "skip_init_a": 0.0,
 
     "train": "examples/cinc17/train.json",
