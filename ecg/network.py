@@ -53,10 +53,9 @@ def resnet_block(
         subsample_length,
         block_index,
         **params):
-    from keras.layers import Add, Multiply
+    from keras.layers import Add
     from keras.layers import MaxPooling1D
     from keras.layers.core import Lambda
-    import tensorflow as tf
 
     def zeropad(x):
         y = K.zeros_like(x)
@@ -89,15 +88,11 @@ def resnet_block(
 
     # Add learnable Scalar
     if not params["conv_batch_norm"]:
-        # res_multiplier = tf.Variable(0.0, dtype=tf.float32)
-        res_multiplier = K.variable(0.0, dtype='float32', name='skipinit')
+        res_multiplier = K.variable(params["skip_init_a"], dtype='float32', name='skipinit')
         res_multiplier._trainable = True
         layer = Lambda(lambda x: x * res_multiplier)(layer)
 
     layer = Add()([shortcut, layer])
-
-    # add relu for skipinit
-    # layer = Activation(params["conv_activation"])(layer)
     return layer
 
 def get_num_filters_at_index(index, num_start_filters, **params):
