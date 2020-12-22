@@ -135,11 +135,11 @@ def add_compile(model, **params):
     # optimizer = Adam(
     #     lr=params["learning_rate"],
     #     clipnorm=params.get("clipnorm", 1))
-    optimizer = Adam(
-        lr=params["learning_rate"])
-    # optimizer = SGD(
-    #     lr=params["learning_rate"], momentum=0.9
-    # )
+    # optimizer = Adam(
+    #     lr=params["learning_rate"])
+    optimizer = SGD(
+        lr=params["learning_rate"], momentum=0.9
+    )
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizer,
                   metrics=['accuracy'])
