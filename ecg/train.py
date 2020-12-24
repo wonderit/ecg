@@ -73,7 +73,7 @@ def train(args, params):
 
     checkpointer = keras.callbacks.ModelCheckpoint(
         filepath=get_filename_for_saving(save_dir),
-        save_best_only=False, save_weights_only=True)
+        save_best_only=False, save_weights_only=False)
 
     batch_size = params.get("batch_size", 32)
 
