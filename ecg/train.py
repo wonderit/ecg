@@ -30,6 +30,10 @@ def get_filename_for_saving(save_dir):
     return os.path.join(save_dir,
             "{val_loss:.3f}-{val_accuracy:.3f}-{epoch:03d}-{loss:.3f}-{accuracy:.3f}.hdf5")
 
+def get_filename_json_for_saving(save_dir):
+    return os.path.join(save_dir,
+            "{val_loss:.3f}-{val_accuracy:.3f}-{epoch:03d}-{loss:.3f}-{accuracy:.3f}.json")
+
 def train(args, params):
 
     print("Loading training set...")
@@ -71,9 +75,16 @@ def train(args, params):
         patience=2,
         min_lr=params["learning_rate"] * 0.001)
 
+    # checkpointer = keras.callbacks.ModelCheckpoint(
+    #     filepath=get_filename_for_saving(save_dir),
+    #     save_best_only=False, save_weights_only=False)
     checkpointer = keras.callbacks.ModelCheckpoint(
         filepath=get_filename_for_saving(save_dir),
-        save_best_only=False, save_weights_only=False)
+        save_weights_only=True,
+        save_best_only=True,
+        monitor='val_accuracy',
+        mode='max',
+    )
 
     batch_size = params.get("batch_size", 32)
 
@@ -179,6 +190,16 @@ def train(args, params):
             epochs=MAX_EPOCHS,
             validation_data=(dev_x, dev_y),
             callbacks=[checkpointer, reduce_lr, stopping])
+
+        model.load_weights(get_filename_for_saving(save_dir))
+
+        import json
+
+        # lets assume `model` is main model
+        model_json = model.to_json()
+        with open(get_filename_json_for_saving(save_dir), "w") as json_file:
+            json.dump(model_json, json_file)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
