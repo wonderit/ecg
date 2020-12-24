@@ -191,8 +191,8 @@ def train(args, params):
             validation_data=(dev_x, dev_y),
             callbacks=[checkpointer, reduce_lr, stopping])
 
-        model.load_weights(get_filename_for_saving(save_dir))
-
+        # model.load_weights(get_filename_for_saving(save_dir))
+        print('model to json: ', get_filename_json_for_saving(save_dir))
         import json
 
         # lets assume `model` is main model
