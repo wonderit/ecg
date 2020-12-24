@@ -193,12 +193,13 @@ def train(args, params):
 
         # model.load_weights(get_filename_for_saving(save_dir))
         print('model to json: ', get_filename_json_for_saving(save_dir))
-        import json
+        model.save("my_model.h5")
+        # import json
 
         # lets assume `model` is main model
-        model_json = model.to_json()
-        with open(get_filename_json_for_saving(save_dir), "w") as json_file:
-            json.dump(model_json, json_file)
+        # model_json = model.to_json()
+        # with open(get_filename_json_for_saving(save_dir), "w") as json_file:
+        #     json.dump(model_json, json_file)
 
 
 if __name__ == '__main__':
