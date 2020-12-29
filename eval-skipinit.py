@@ -15,7 +15,7 @@ import util
 import load
 
 #%%
-data_path = "./examples/cinc/dev.json"
+data_path = "./examples/cinc17/dev.json"
 
 # gpu-1 adam0.001 reg0.001 a1.0
 model_folder_path = "./saved_res_nobn/cinc17/"
@@ -51,8 +51,8 @@ class ScaleLayer(Layer):
 model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer})
 
 #%%
-data_path = "./examples/cinc/train.json"
-with open("./examples/cinc/train.json", 'rb') as fid:
+data_path = "./examples/cinc17/train.json"
+with open("./examples/cinc17/train.json", 'rb') as fid:
     train_labels = [json.loads(l)['labels'] for l in fid]
 counts = collections.Counter(preproc.class_to_int[l[0]] for l in train_labels)
 counts = sorted(counts.most_common(), key=lambda x: x[0])
