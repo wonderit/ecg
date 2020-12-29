@@ -22,7 +22,6 @@ model_path = "../../../saved_res_nobn/cinc17/1609218664-675/17.155-0.189-001-18.
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
 print('preproc window size : ', preproc.window_size)
-print('preproc skip_init_a : ', preproc.skip_init_a)
 
 class ScaleLayer(Layer):
     def __init__(self, alpha=0):
@@ -34,7 +33,7 @@ class ScaleLayer(Layer):
       return inputs * self.scale
 
 # load model
-model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer()})
+model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer})
 
 #%%
 
