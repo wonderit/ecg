@@ -80,7 +80,7 @@ def train(args, params):
     #     save_best_only=False, save_weights_only=False)
     checkpointer = keras.callbacks.ModelCheckpoint(
         filepath=get_filename_for_saving(save_dir),
-        save_weights_only=True,
+        save_weights_only=False,
         save_best_only=True,
         monitor='val_accuracy',
         mode='max',
@@ -190,17 +190,6 @@ def train(args, params):
             epochs=params.get("epoch", 10),
             validation_data=(dev_x, dev_y),
             callbacks=[checkpointer, reduce_lr, stopping])
-
-        # model.load_weights(get_filename_for_saving(save_dir))
-        print('model to json: ', get_filename_json_for_saving(save_dir))
-        model.save("my_model.h5")
-        # import json
-
-        # lets assume `model` is main model
-        # model_json = model.to_json()
-        # with open(get_filename_json_for_saving(save_dir), "w") as json_file:
-        #     json.dump(model_json, json_file)
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
