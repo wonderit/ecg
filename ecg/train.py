@@ -16,7 +16,7 @@ import util
 
 from keras.utils import plot_model
 
-MAX_EPOCHS = 100
+# MAX_EPOCHS = 100
 # os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 def make_save_dir(dirname, experiment_name):
@@ -103,7 +103,7 @@ def train(args, params):
         model.fit_generator(
             train_gen,
             steps_per_epoch=int(len(train[0]) / batch_size),
-            epochs=MAX_EPOCHS,
+            epochs=params.get("epoch", 10),
             validation_data=dev_gen,
             validation_steps=int(len(dev[0]) / batch_size),
             callbacks=[checkpointer, reduce_lr, stopping])
