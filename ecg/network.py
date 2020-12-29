@@ -149,8 +149,6 @@ class ScaleLayer(Layer):
       self.scale = K.variable(self.alpha, dtype='float32', name='alpha')
 
     def get_config(self):
-      # config = super().get_config()
-      # config["alpha"] = self.alpha
       return {"alpha": self.alpha}
 
     def call(self, inputs):

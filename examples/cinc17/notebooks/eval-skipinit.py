@@ -2,14 +2,13 @@
 
 import collections
 import json
-import keras
 import numpy as np
 import os
 import sys
 sys.path.append("../../../ecg")
 import scipy.stats as sst
 from keras.layers import Layer
-import keras as K
+from keras import backend as K
 from tensorflow.keras.models import load_model
 
 import util
@@ -32,8 +31,6 @@ class ScaleLayer(Layer):
       self.scale = K.variable(self.alpha, dtype='float32', name='alpha')
 
     def get_config(self):
-      # config = super().get_config()
-      # config["alpha"] = self.alpha
       return {"alpha": self.alpha}
 
     def call(self, inputs):
