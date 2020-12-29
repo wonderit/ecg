@@ -19,7 +19,7 @@ import load
 data_path = "../dev.json"
 
 # gpu-1 adam0.001 reg0.001 a1.0
-model_path = "../../../saved_res_nobn/cinc17/1609218664-675/17.155-0.189-001-18.789-0.177.hdf5"
+model_path = "../../../saved_res_nobn/cinc17/16092221230-792/17.155-0.189-001-18.789-0.177.hdf5"
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
@@ -28,12 +28,13 @@ print('preproc window size : ', preproc.window_size)
 class ScaleLayer(Layer):
     def __init__(self, alpha=0):
       super(ScaleLayer, self).__init__()
-      self.scale = K.variable(alpha, dtype='float32', name='skipinit')
+      self.alpha = alpha
+      self.scale = K.variable(self.alpha, dtype='float32', name='alpha')
 
     def get_config(self):
-      config = super().get_config()
-      config["scale"] = self.scale
-      return config
+      # config = super().get_config()
+      # config["alpha"] = self.alpha
+      return {"alpha": self.alpha}
 
     def call(self, inputs):
       return inputs * self.scale

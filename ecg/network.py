@@ -145,12 +145,13 @@ def add_compile(model, **params):
 class ScaleLayer(Layer):
     def __init__(self, alpha=0):
       super(ScaleLayer, self).__init__()
-      self.scale = K.variable(alpha, dtype='float32', name='skipinit')
+      self.alpha = alpha
+      self.scale = K.variable(self.alpha, dtype='float32', name='alpha')
 
     def get_config(self):
-      config = super().get_config()
-      config["scale"] = self.scale
-      return config
+      # config = super().get_config()
+      # config["alpha"] = self.alpha
+      return {"alpha": self.alpha}
 
     def call(self, inputs):
       return inputs * self.scale
