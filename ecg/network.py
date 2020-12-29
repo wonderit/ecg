@@ -1,6 +1,7 @@
 from keras import backend as K
 from keras.layers import Conv1D, Dense, Flatten, Dropout,MaxPooling1D, Activation
 from keras.layers.wrappers import TimeDistributed
+from keras.layers import Layer
 
 def _bn_relu(layer, dropout=0, **params):
     from keras.layers import BatchNormalization
@@ -88,9 +89,10 @@ def resnet_block(
 
     # Add learnable Scalar
     if not params["conv_batch_norm"]:
-        res_multiplier = K.variable(params["skip_init_a"], dtype='float32', name='skipinit')
-        res_multiplier._trainable = True
-        layer = Lambda(lambda x: x * res_multiplier)(layer)
+        # res_multiplier = K.variable(params["skip_init_a"], dtype='float32', name='skipinit')
+        # res_multiplier._trainable = True
+        # layer = Lambda(lambda x: x * res_multiplier)(layer)
+        layer = ScaleLayer(params["skip_init_a"])(layer)
 
     layer = Add()([shortcut, layer])
     return layer
@@ -138,6 +140,15 @@ def add_compile(model, **params):
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizer,
                   metrics=['accuracy'])
+
+class ScaleLayer(Layer):
+    def __init__(self, alpha=0):
+      super(ScaleLayer, self).__init__()
+      self.scale = K.variable(alpha, dtype='float32', name='skipinit')
+      # self.scale = tf.Variable(1.)
+
+    def call(self, inputs):
+      return inputs * self.scale
 
 def build_network(**params):
     from keras.models import Model
