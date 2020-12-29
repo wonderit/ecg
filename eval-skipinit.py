@@ -18,12 +18,15 @@ import load
 data_path = "./examples/cinc17/dev.json"
 
 # gpu-1 adam0.001 reg0.001 a1.0
-model_folder_path = "./saved_res_nobn/cinc17/"
+model_folder_path = "./saved_res_nobn/cinc17"
 arr = os.listdir(model_folder_path)
 arr = sorted(arr)
 last_folder = arr[-1]
-model_folder_path = model_folder_path + last_folder
+model_folder_path = "{}/{}/*.hdf5".format(model_folder_path, last_folder)
+# model_folder_path = model_folder_path + last_folder
 arr_file = os.listdir(model_folder_path)
+
+print('arr_file', arr_file)
 file_name = arr_file[-1]
 
 model_path = '{}/{}'.format(model_folder_path, file_name)
