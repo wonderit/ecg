@@ -53,6 +53,9 @@ def train(args, params):
 
     print('classes', preproc.classes)
 
+    print("Skip Init initial Alpha : {}, L2 : {}, Lr : {}, batch_size : {}"
+          .format(params["skip_init_a"], params["conv_l2"], params["learning_rate"], params["batch_size"]))
+
     params.update({
         "input_shape": [None, 1],
         "num_categories": len(preproc.classes)
