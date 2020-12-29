@@ -10,7 +10,7 @@
     "conv_batch_norm": false,
     "window_size" : 40,
     "optimizer": "adam",
-    "epoch" : 1,
+    "epoch" : 100,
     "learning_rate": 0.001,
     "batch_size": 64,
     "conv_l2": 0.001,
