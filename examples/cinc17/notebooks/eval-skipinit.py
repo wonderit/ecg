@@ -29,7 +29,11 @@ class ScaleLayer(Layer):
     def __init__(self, alpha=0):
       super(ScaleLayer, self).__init__()
       self.scale = K.variable(alpha, dtype='float32', name='skipinit')
-      # self.scale = tf.Variable(1.)
+
+    def get_config(self):
+      config = super().get_config()
+      config["scale"] = self.scale
+      return config
 
     def call(self, inputs):
       return inputs * self.scale
