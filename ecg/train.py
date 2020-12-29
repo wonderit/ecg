@@ -68,7 +68,7 @@ def train(args, params):
         else:
             plot_model(model, to_file='model_residual_conv_nobn.png', show_shapes=True)
 
-    stopping = keras.callbacks.EarlyStopping(patience=3)
+    stopping = keras.callbacks.EarlyStopping(patience=8)
 
     reduce_lr = keras.callbacks.ReduceLROnPlateau(
         factor=0.1,
