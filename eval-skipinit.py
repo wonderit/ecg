@@ -10,6 +10,7 @@ import scipy.stats as sst
 from keras.layers import Layer
 from keras import backend as K
 import keras
+import glob
 
 import util
 import load
@@ -24,7 +25,7 @@ arr = sorted(arr)
 last_folder = arr[-1]
 model_folder_path = "{}/{}/*.hdf5".format(model_folder_path, last_folder)
 # model_folder_path = model_folder_path + last_folder
-arr_file = os.listdir(model_folder_path)
+arr_file = glob.glob(model_folder_path)
 
 print('arr_file', arr_file)
 file_name = arr_file[-1]
