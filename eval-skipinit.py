@@ -24,13 +24,10 @@ arr = os.listdir(model_folder_path)
 arr = sorted(arr)
 last_folder = arr[-1]
 model_folder_path = "{}/{}/*.hdf5".format(model_folder_path, last_folder)
-# model_folder_path = model_folder_path + last_folder
 arr_file = glob.glob(model_folder_path)
-
 print('arr_file', arr_file)
 file_name = arr_file[-1]
-
-model_path = '{}/{}'.format(model_folder_path, file_name)
+model_path = file_name
 print('Model Path : ', model_path)
 # exit()
 # model_path = "../../../saved_res_nobn/cinc17/1609222106-676/14.899-0.302-001-16.664-0.284.hdf5"
