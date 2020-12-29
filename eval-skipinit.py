@@ -24,7 +24,7 @@ arr = os.listdir(model_folder_path)
 arr = sorted(arr)
 last_folder = arr[-1]
 model_folder_path = "{}/{}/*.hdf5".format(model_folder_path, last_folder)
-arr_file = glob.glob(model_folder_path)
+arr_file = sorted(glob.glob(model_folder_path))
 print('arr_file', arr_file)
 file_name = arr_file[0]
 model_path = file_name
