@@ -13,6 +13,8 @@ import util
 import load
 
 #%%
+data_path = "../dev.json"
+
 # gpu-1 adam0.001 reg0.001 a1.0
 model_path = "../../../saved/cinc17/1609218664/17.155-0.189-001-18.789-0.177.hdf5"
 
