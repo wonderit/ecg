@@ -10,6 +10,8 @@ sys.path.append("../../../ecg")
 import scipy.stats as sst
 from keras.layers import Layer
 import keras as K
+from tensorflow.keras.models import load_model
+
 import util
 import load
 
@@ -33,7 +35,8 @@ class ScaleLayer(Layer):
       return inputs * self.scale
 
 # load model
-model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer})
+model = load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer})
+# model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer})
 
 #%%
 
