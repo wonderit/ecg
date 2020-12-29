@@ -144,9 +144,9 @@ def add_compile(model, **params):
 
 class ScaleLayer(Layer):
     def __init__(self, alpha=0):
-      super(ScaleLayer, self).__init__()
-      self.alpha = alpha
-      self.scale = K.variable(self.alpha, dtype='float32', name='alpha')
+        super(ScaleLayer, self).__init__()
+        self.alpha = alpha
+        self.scale = K.variable(self.alpha, dtype='float32', name='alpha')
 
     def get_config(self):
       return {"alpha": self.alpha}
