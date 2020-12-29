@@ -187,7 +187,7 @@ def train(args, params):
         model.fit(
             train_x, train_y,
             batch_size=batch_size,
-            epochs=MAX_EPOCHS,
+            epochs=params.get("epoch", 10),
             validation_data=(dev_x, dev_y),
             callbacks=[checkpointer, reduce_lr, stopping])
 

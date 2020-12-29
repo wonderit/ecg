@@ -1,3 +1,7 @@
+## update
+pip install --user --upgrade tensorflow-gpu
+pip install --upgrade keras
+
 ## Install 
 
 Clone the repository
