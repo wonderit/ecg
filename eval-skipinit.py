@@ -27,6 +27,7 @@ arr_file = os.listdir(model_folder_path)
 file_name = arr_file[-1]
 
 model_path = '{}/{}'.format(model_folder_path, file_name)
+print('Model Path : ', model_path)
 # exit()
 # model_path = "../../../saved_res_nobn/cinc17/1609222106-676/14.899-0.302-001-16.664-0.284.hdf5"
 
