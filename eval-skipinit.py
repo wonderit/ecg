@@ -24,9 +24,11 @@ arr = sorted(arr)
 last_folder = arr[-1]
 model_folder_path = model_folder_path + last_folder
 arr_file = os.listdir(model_folder_path)
-print(arr_file)
-exit()
-model_path = "../../../saved_res_nobn/cinc17/1609222106-676/14.899-0.302-001-16.664-0.284.hdf5"
+file_name = arr_file[-1]
+
+model_path = '{}/{}'.format(model_folder_path, file_name)
+# exit()
+# model_path = "../../../saved_res_nobn/cinc17/1609222106-676/14.899-0.302-001-16.664-0.284.hdf5"
 
 data = load.load_dataset(data_path)
 preproc = util.load(os.path.dirname(model_path))
