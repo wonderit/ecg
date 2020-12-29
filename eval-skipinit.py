@@ -5,7 +5,7 @@ import json
 import numpy as np
 import os
 import sys
-sys.path.append("../../../ecg")
+sys.path.append("ecg")
 import scipy.stats as sst
 from keras.layers import Layer
 from keras import backend as K
@@ -15,12 +15,16 @@ import util
 import load
 
 #%%
-data_path = "../dev.json"
+data_path = "./examples/cinc/dev.json"
 
 # gpu-1 adam0.001 reg0.001 a1.0
-model_folder_path = "saved_res_nobn/cinc/"
+model_folder_path = "./saved_res_nobn/cinc17/"
 arr = os.listdir(model_folder_path)
-print(arr)
+arr = sorted(arr)
+last_folder = arr[-1]
+model_folder_path = model_folder_path + last_folder
+arr_file = os.listdir(model_folder_path)
+print(arr_file)
 exit()
 model_path = "../../../saved_res_nobn/cinc17/1609222106-676/14.899-0.302-001-16.664-0.284.hdf5"
 
@@ -45,9 +49,8 @@ class ScaleLayer(Layer):
 model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer})
 
 #%%
-
-data_path = "../train.json"
-with open("../train.json", 'rb') as fid:
+data_path = "./examples/cinc/train.json"
+with open("./examples/cinc/train.json", 'rb') as fid:
     train_labels = [json.loads(l)['labels'] for l in fid]
 counts = collections.Counter(preproc.class_to_int[l[0]] for l in train_labels)
 counts = sorted(counts.most_common(), key=lambda x: x[0])
