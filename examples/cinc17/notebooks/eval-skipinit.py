@@ -34,7 +34,7 @@ class ScaleLayer(Layer):
       return inputs * self.scale
 
 # load model
-model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer(preproc.skip_init_a)})
+model = keras.models.load_model(model_path, custom_objects={'ScaleLayer':ScaleLayer()})
 
 #%%
 
