@@ -385,8 +385,8 @@ def resnet():
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('use cpu or gpu : ', device)
-# model = NetMaxpool()
-model = Net()
+model = NetMaxpool()
+# model = Net()
 # model = ML4CVD_shallow()
 # model = ML4CVD()
 # model = resnet()
