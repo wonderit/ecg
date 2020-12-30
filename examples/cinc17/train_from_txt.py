@@ -102,7 +102,7 @@ class NetMaxpool(nn.Module):
         self.conv42 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
         self.nodes = 64
-        self.fc1 = nn.Linear(1024, self.nodes)
+        self.fc1 = nn.Linear(10240, self.nodes)
         self.fc2 = nn.Linear(self.nodes, self.nodes)
         self.fc3 = nn.Linear(self.nodes, 4)
         self.dropout1 = nn.Dropout(0.5)
@@ -384,9 +384,9 @@ def resnet():
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('use cpu or gpu : ', device)
-# model = NetMaxpool()
+model = NetMaxpool()
 # model = ML4CVD_shallow()
-model = ML4CVD()
+# model = ML4CVD()
 # model = resnet()
 model.to(device)
 summary(model, input_size=(1, 5120), batch_size=batch_size)
