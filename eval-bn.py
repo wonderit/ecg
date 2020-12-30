@@ -19,7 +19,7 @@ import load
 data_path = "./examples/cinc17/dev.json"
 
 # gpu-1 adam0.001 reg0.001 a1.0
-model_folder_path = "./saved_res_nobn/cinc17"
+model_folder_path = "./saved_res_bn/cinc17"
 arr = os.listdir(model_folder_path)
 arr = sorted(arr)
 last_folder = arr[-1]
