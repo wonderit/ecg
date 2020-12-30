@@ -10,8 +10,8 @@ from torch.autograd import Variable
 import time
 
 torch.manual_seed(0)
-# data_dir = 'minimum_data'
-data_dir = 'processed_data_5120'
+data_dir = 'minimum_data'
+# data_dir = 'processed_data_5120'
 # data_dir = 'minimum_data_512'
 
 train_x = np.genfromtxt('../../{}/Xtrain'.format(data_dir), delimiter=',', dtype='float')
@@ -45,7 +45,7 @@ class Net(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv5 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
-        self.fc1 = nn.Linear(128, 64)
+        self.fc1 = nn.Linear(256, 64)
         self.fc2 = nn.Linear(64, 64)
         self.fc3 = nn.Linear(64, 4)
 
@@ -65,6 +65,7 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         y = self.fc3(x)
         return y
+
 
 class NetMaxpool(nn.Module):
     def __init__(self):
@@ -384,12 +385,13 @@ def resnet():
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('use cpu or gpu : ', device)
-model = NetMaxpool()
+# model = NetMaxpool()
+model = Net()
 # model = ML4CVD_shallow()
 # model = ML4CVD()
 # model = resnet()
 model.to(device)
-summary(model, input_size=(1, 5120), batch_size=batch_size)
+summary(model, input_size=(1, 512), batch_size=batch_size)
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
@@ -486,7 +488,7 @@ def train(epoch):
 
 
 # defining the number of epochs
-n_epochs = 100
+n_epochs = 30
 # empty list to store training losses
 train_losses = []
 # empty list to store validation losses
