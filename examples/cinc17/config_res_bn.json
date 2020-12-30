@@ -21,5 +21,5 @@
 
     "generator": false,
     "is_regular_conv": false,
-    "save_dir": "saved_res_nobn"
+    "save_dir": "saved_res_bn"
 }
