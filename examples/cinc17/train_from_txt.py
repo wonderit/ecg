@@ -70,9 +70,9 @@ class Net(nn.Module):
 class NetMaxpool(nn.Module):
     def __init__(self):
         super(NetMaxpool, self).__init__()
-        self.kernel_size = 7
+        self.kernel_size = 15
         self.padding_size = 0
-        self.channel_size = 16
+        self.channel_size = 32
         self.maxpool1 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool2 = nn.MaxPool1d(kernel_size=2, stride=2)
         self.maxpool3 = nn.MaxPool1d(kernel_size=2, stride=2)
@@ -102,8 +102,16 @@ class NetMaxpool(nn.Module):
                                padding=(self.kernel_size // 2))
         self.conv42 = nn.Conv1d(self.channel_size, self.channel_size, kernel_size=self.kernel_size,
                                padding=(self.kernel_size // 2))
+        self.bn1 = nn.BatchNorm1d(self.channel_size)
+        self.bn2 = nn.BatchNorm1d(self.channel_size)
+        self.bn3 = nn.BatchNorm1d(self.channel_size)
+        self.bn4 = nn.BatchNorm1d(self.channel_size)
+        self.bn5 = nn.BatchNorm1d(self.channel_size)
+        self.bn6 = nn.BatchNorm1d(self.channel_size)
+        self.bn7 = nn.BatchNorm1d(self.channel_size)
+        self.bn8 = nn.BatchNorm1d(self.channel_size)
         self.nodes = 64
-        self.fc1 = nn.Linear(512, self.nodes)
+        self.fc1 = nn.Linear(1024, self.nodes)
         self.fc2 = nn.Linear(self.nodes, self.nodes)
         self.fc3 = nn.Linear(self.nodes, 4)
         self.dropout1 = nn.Dropout(0.5)
@@ -112,25 +120,25 @@ class NetMaxpool(nn.Module):
         self.dropout = nn.Dropout(0.2)
 
     def forward(self, x):
-        x = F.relu(self.conv1(x))  # 32
-        x = F.relu(self.conv11(x))  # 32
-        x = F.relu(self.conv12(x))  # 32
-        x = self.dropout(x)
+        x = F.relu(self.bn1(self.conv1(x)))  # 32
+        x = F.relu(self.bn2(self.conv11(x)))  # 32
+        # x = F.relu(self.conv12(x))  # 32
+        # x = self.dropout(x)
         x = self.maxpool1(x)  # 32
-        x = F.relu(self.conv2(x))
-        x = F.relu(self.conv21(x))
-        x = F.relu(self.conv22(x))
-        x = self.dropout(x)
+        x = F.relu(self.bn3(self.conv2(x)))
+        x = F.relu(self.bn4(self.conv21(x)))
+        # x = F.relu(self.conv22(x))
+        # x = self.dropout(x)
         x = self.maxpool2(x)
-        x = F.relu(self.conv3(x))
-        x = F.relu(self.conv31(x))
-        x = F.relu(self.conv32(x))
-        x = self.dropout(x)
+        x = F.relu(self.bn5(self.conv3(x)))
+        x = F.relu(self.bn6(self.conv31(x)))
+        # x = F.relu(self.conv32(x))
+        # x = self.dropout(x)
         x = self.maxpool3(x)
-        x = F.relu(self.conv4(x))
-        x = F.relu(self.conv41(x))
-        x = F.relu(self.conv42(x))
-        x = self.dropout(x)
+        x = F.relu(self.bn7(self.conv4(x)))
+        x = F.relu(self.bn8(self.conv41(x)))
+        # x = F.relu(self.conv42(x))
+        # x = self.dropout(x)
         x = self.maxpool4(x)
         x = x.view(x.shape[0], -1)
         x = self.fc1(x)
