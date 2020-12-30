@@ -12,8 +12,8 @@
     "optimizer": "adam",
     "epoch" : 30,
     "learning_rate": 0.001,
-    "batch_size": 64,
-    "conv_l2": 0.001,
+    "batch_size": 128,
+    "conv_l2": 0.0,
     "skip_init_a": 0.0,
 
     "train": "examples/cinc17/train.json",
