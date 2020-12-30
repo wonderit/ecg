@@ -11,8 +11,8 @@ import time
 
 torch.manual_seed(0)
 # data_dir = 'minimum_data'
-# data_dir = 'processed_data_5120'
-data_dir = 'minimum_data_512'
+data_dir = 'processed_data_5120'
+# data_dir = 'minimum_data_512'
 
 train_x = np.genfromtxt('../../{}/Xtrain'.format(data_dir), delimiter=',', dtype='float')
 train_y = np.genfromtxt('../../{}/ytrain'.format(data_dir), delimiter=',', dtype='float')
@@ -385,11 +385,11 @@ def resnet():
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('use cpu or gpu : ', device)
 # model = NetMaxpool()
-model = ML4CVD_shallow()
-# model = ML4CVD()
+# model = ML4CVD_shallow()
+model = ML4CVD()
 # model = resnet()
 model.to(device)
-summary(model, input_size=(1, 512), batch_size=batch_size)
+summary(model, input_size=(1, 5120), batch_size=batch_size)
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
