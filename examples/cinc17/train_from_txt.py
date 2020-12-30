@@ -10,8 +10,8 @@ from torch.autograd import Variable
 import time
 
 torch.manual_seed(0)
-data_dir = 'minimum_data'
-# data_dir = 'processed_data_5120'
+# data_dir = 'minimum_data'
+data_dir = 'processed_data_5120'
 # data_dir = 'minimum_data_512'
 
 train_x = np.genfromtxt('../../{}/Xtrain'.format(data_dir), delimiter=',', dtype='float')
@@ -120,23 +120,23 @@ class NetMaxpool(nn.Module):
         self.dropout = nn.Dropout(0.2)
 
     def forward(self, x):
-        x = F.relu(self.bn1(self.conv1(x)))  # 32
-        x = F.relu(self.bn2(self.conv11(x)))  # 32
+        x = F.relu(self.conv1(x)) # 32
+        x = F.relu(self.conv11(x))  # 32
         # x = F.relu(self.conv12(x))  # 32
         # x = self.dropout(x)
         x = self.maxpool1(x)  # 32
-        x = F.relu(self.bn3(self.conv2(x)))
-        x = F.relu(self.bn4(self.conv21(x)))
+        x = F.relu(self.conv2(x))
+        x = F.relu(self.conv21(x))
         # x = F.relu(self.conv22(x))
         # x = self.dropout(x)
         x = self.maxpool2(x)
-        x = F.relu(self.bn5(self.conv3(x)))
-        x = F.relu(self.bn6(self.conv31(x)))
+        x = F.relu(self.conv3(x))
+        x = F.relu(self.conv31(x))
         # x = F.relu(self.conv32(x))
         # x = self.dropout(x)
         x = self.maxpool3(x)
-        x = F.relu(self.bn7(self.conv4(x)))
-        x = F.relu(self.bn8(self.conv41(x)))
+        x = F.relu(self.conv4(x))
+        x = F.relu(self.conv41(x))
         # x = F.relu(self.conv42(x))
         # x = self.dropout(x)
         x = self.maxpool4(x)
@@ -393,13 +393,13 @@ def resnet():
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('use cpu or gpu : ', device)
-model = NetMaxpool()
+# model = NetMaxpool()
 # model = Net()
 # model = ML4CVD_shallow()
-# model = ML4CVD()
+model = ML4CVD()
 # model = resnet()
 model.to(device)
-summary(model, input_size=(1, 512), batch_size=batch_size)
+summary(model, input_size=(1, 5120), batch_size=batch_size)
 
 class ECGDataset(Dataset):
     def __init__(self, data, target):
